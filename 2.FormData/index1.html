@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FormData</title>
+</head>
+<body>
+
+<!-- FormData
+
+  このチャプターはHTMLフォームの送信について説明します:
+    ファイル有無や追加のフィールドなど。
+
+  FormData オブジェクトはそれらの場合に役立ちます。
+
+  コンストラクタは次の通りです:
+
+    let formData = new FormData([form]);
+
+  HTML form要素が提供されている場合、自動的にそのフィールドを捉えます。
+
+  ご想像のとおり、FormData はフォームデータを保存したり
+  送信したりするためのオブジェクトです。
+
+  FormDataに関して特別なことは、fetchのようなネットワークメソッドが、
+  本体(ボディ)としてFormDataオブジェクトを受け入れることができるという点です。
+
+  エンコードされ、Content - Type: form / multipartで送信されます。
+
+  なので、サーバ側から見ると、通常のフォーム送信のように見えます。
+
+※シンプルなフォームの送信
+
+  最初に、シンプルなフォームを送信してみましょう。
+
+  ご覧の通り、ほぼ1行でです。:-->
+
+  <form id="formElem">
+
+    <input type="text" name="name" value="John">
+
+    <input type="text" name="surname" value="Smith">
+
+  </form>
+
+  <script>
+
+  (async () => {
+
+    let response = await fetch('/article/fetch-basics/post/user', {
+
+      method: 'POST',
+
+      body: new FormData(formElem)
+
+    });
+
+    let result = await response.json();
+
+    alert(result.message);
+
+  })();
+
+  </script>
+
+  <!--実行結果:
+
+      // 実行するとwindow画面に以下が表示される。:form-multipart1.png
+      [John        ][ smith        ]          // window
+
+
+      // 以下が表示されるはずだが、表示されない
+      User saved.                            // alert
+
+
+
+      /*「Uncaught TypeError: Cannot read property」エラーは、
+        undefined変数を使用またはアクセスしようとしたときに発生するのが通例です
+
+        配列に存在しない要素にアクセスする
+
+        先ほどのオブジェクトと同様に、
+        まだ初期化されていない配列の要素にアクセスしようとしても、このエラーが発生します。*/
+    -->
+
+<!-- ここでは、サーバーはフォームを使用したPOST要求を受け入れ、 “User saved” と返信します。 -->
+
+</body>
+</html>

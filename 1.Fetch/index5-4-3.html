@@ -1,0 +1,40 @@
+<!DOCTYPE html><!--https://techplay.jp/column/611-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON文字列からオブジェクトへのデコード</title>
+</head>
+<body>
+<script>
+
+/*JSON文字列からオブジェクトへのデコード
+
+  受け取った文字列のJSONデータをより扱いやすくするために、
+  JavaScriptのオブジェクトの形式に変換してみましょう。
+
+  ここではJavaScriptのJSON.parse()を使って、JSON文字列をオブジェクトに変換する例を示します。*/
+
+  // jsonString変数に、JSON記法の文字列が格納されています。
+  const jsonString = '{"name":"Taro Yamada","age":25,"isEngineer":true}';
+
+  // JSON.parse()は、引数として文字列を受け取り、JavaScriptオブジェクトを返します。
+  const obj = JSON.parse(jsonString);
+
+  // オブジェクトをコンソールに出力しています。
+  console.log(obj);
+
+  /*実行結果:実行結果:Google Chrome-console
+    // JSON文字列からオブジェクトへのデコード
+
+    ▼Object
+      age:25
+      isEngineer:true
+      name:"Taro Yamada"
+      ▶[[Prototype]]:Object
+
+  */
+
+</script>
+</body>
+</html>

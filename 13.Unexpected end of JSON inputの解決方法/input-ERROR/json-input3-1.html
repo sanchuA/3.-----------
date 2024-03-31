@@ -1,0 +1,49 @@
+<!DOCTYPE html><!-- https://web-engineer-wiki.com/javascript/error-unexpected-end-of-input/ -->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unexpected end of inpu</title>
+</head>
+<body>
+<script>
+
+  // このエラーは、文法ミスによる閉じ括弧の忘れで発生します。例えば下記のコードを実行してみましょう。
+  /*function nameFn(name) {
+
+    if (true) {
+
+        console.log(`私の名前は${name}です。`);
+
+    }
+  // ← 閉じ括弧がない！
+
+  nameFn("太郎");
+
+  // 実行結果：
+  //  エラー「Uncaught SyntaxError: Unexpected end of input」が表示されます。
+
+  */
+
+  function nameFn(name) {
+
+      if (true) {
+
+        console.log(`私の名前は${name}です。`);
+
+      }
+
+    }
+
+    nameFn("太郎");
+
+    /* 実行結果:Google Chrome-console
+
+      私の名前は太郎です。
+
+    */
+
+</script>
+
+</body>
+</html>

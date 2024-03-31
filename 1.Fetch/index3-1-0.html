@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POSTリクエスト</title>
+</head>
+<body>
+
+  <!--POSTリクエスト
+
+  POST、もしくは他のメソッドを使ったリクエストを行うには、
+  fetchのオプションを利用します:
+
+    ● method – HTTPメソッド, e.g. POST,
+
+    ● body – 次のいずれか:
+
+      ● 文字列 (e.g. JSON),
+
+      ● FormDataオブジェクト, form/multipartとしてデータを送信する場合,
+
+      ● Blob/BufferSourceバイナリデータを送信する場合,
+
+      ● URLSearchParams, x-www-form-urlencodedとしてデータを送信する場合。
+        ほとんど使われません。
+
+  例を見てみましょう。このコードは、user オブジェクトを JSON として送信します。:-->
+
+  <script>
+    "use strict";
+
+    const user = {
+
+        name: 'John',
+
+        surname: 'Smith'
+
+      };
+
+      const url = "...";
+
+      const body = Object.entries(user).reduce((x, y) => (x.append(y[0], y[1]), x), new FormData());
+
+      fetch(url, {
+
+        method: 'POST',
+
+        body,
+
+      }).then(res => res.text()).then(console.log);
+
+  </script>
+
+  <!-- 本文(body)が文字列の場合、Content-Typeにはデフォルトでは
+    text/plain が設定されることに留意してください。
+    そのため、application/jsonを代わりに送信するために
+    headersオプションを使用しています。-->
+</body>
+</html>

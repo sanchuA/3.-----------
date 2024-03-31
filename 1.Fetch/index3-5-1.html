@@ -1,0 +1,34 @@
+<!DOCTYPE html><!---https://kinsta.com/jp/knowledgebase/javascript-http-request/-->
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSTリクエスト</title>
+</head>
+<body>
+<script>
+
+// リクエストヘッダーの生成
+fetch("test.txt")
+.then((data) => data.text())
+.then((res) => console.log(res));
+// 「テキストデータです」と出力される
+</script>
+
+  <!--実行結果:Google Chrome-console
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <title>Error</title>
+    </head>
+    <body>
+    <pre>Cannot GET /test.txt</pre>
+    </body>
+    </html>
+
+
+-->
+</body>
+</html>

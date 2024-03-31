@@ -1,0 +1,51 @@
+<!DOCTYPE html><!-- https://www.sejuku.net/blog/47716-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+
+    // 例えば、次のサンプル例を見てください！
+    var obj = {
+
+      name: '太郎',
+
+      age: 30,
+
+      area: 'Tokyo'
+
+    }
+
+    // オブジェクトデータをJSON化
+    var json = JSON.stringify(obj);
+
+    // JSONを再びオブジェクトデータの形式に変換
+    json = JSON.parse(json);
+
+    console.log(json.name)
+
+
+    /*実行結果:Google Chrome-console
+
+      太郎
+
+      // この例では、オブジェクトデータをJSONにエンコードしたあとに
+      // 「name」プロパティを出力しています。
+      // 実行結果を見ると「undefined」になっているのが分かりますね。
+
+      // つまり、文字列データのJSONにオブジェクトのようなアクセスは
+      // できないという意味になります。
+
+      // そこで、JSONを再びオブジェクトデータの形式に変換して、
+      // JavaScriptから簡単に扱えるようにしてみましょう！
+
+    */
+
+  </script>
+
+</body>
+</html>

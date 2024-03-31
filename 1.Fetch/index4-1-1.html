@@ -1,0 +1,46 @@
+<!DOCTYPE html><!-- https://tcd-theme.com/2021/11/javascript-json.html -->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>画像を送信する</title>
+</head>
+<body>
+  
+  <!-- JavaScriptオブジェクト -->
+  <script>
+
+    // JavaScriptオブジェクト
+    const users = {
+
+      users: [
+        {
+          "id": 1,
+          "name": "田中太郎",
+          "job": "数学教師"
+        },
+        {
+          "id": 2,
+          "name": "山田花子",
+          "job": "看護師"
+        }
+      ]
+
+    }
+
+    // JSONへ変換
+    let jsonData = JSON.stringify(users);
+
+    console.log(jsonData);
+    // {"users":[{"id":1,"name":"田中太郎","job":"数学教師"},{"id":2,"name":"山田花子","job":"看護師"}]}
+
+  </script>
+
+  <!--実行結果:実行結果:Google Chrome-console
+
+    {"users":[{"id":1,"name":"田中太郎","job":"数学教師"},{"id":2,"name":"山田花子","job":"看護師"}]}
+
+    -->
+
+</body>
+</html>

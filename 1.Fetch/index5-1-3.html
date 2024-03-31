@@ -1,0 +1,86 @@
+<!DOCTYPE html><!--https://qiita.com/saka212/items/678a45ce5c43e97271d5-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>オブジェクトの中身を確認したい</title>
+</head>
+<body>
+
+  <script>
+
+    // JSONオブジェクト
+    var obj = {
+      "name": "taro",
+      "date": "2020-10-25 12:30:18",
+      "item": [
+        "ラーメン",
+        "チャーハン",
+        "餃子"
+      ]
+    }
+  
+    // オブジェクトの中身を確認したい
+    console.dir(obj);
+
+
+  </script>
+
+  <!--実行結果:実行結果:Google Chrome-console
+      // オブジェクトの中身を確認したい
+
+    ▼Object
+      date:"2020-10-25 12:30:18"
+      ▶item:(3) ['ラーメン', 'チャーハン', '餃子']
+      name:"taro"
+      ▶[[Prototype]]:Object
+
+  -->
+
+
+  <!--サマリ
+
+  典型的なfetchリクエストは２つのawaitから成ります:
+
+    let response = await fetch(url, options); // レスポンスヘッダでresolveする
+
+    let result = await response.json();       // 本文をjsonとして読む
+
+  もしくは、promiseを使った書き方:
+
+  fetch(url, options)
+    .then(response => response.json())
+    .then(result => /* result を処理する */)
+
+  レスポンスのプロパティ:
+
+    ● response.status – レスポンスのHTTP コード,
+
+    ● response.ok – ステータスが200-299の場合true
+
+    ● response.headers – HTTPヘッダを持つMapライクなオブジェクト
+
+  レスポンス本文を取得するメソッド:
+
+    ● response.json() – レスポンスをJSON オブジェクトとしてパースする,
+
+    ● response.text() – レスポンスをテキストとして返す,
+
+    ● response.formData() – FormDataオブジェクト(form/multipart encoding)として返す,
+
+    ● response.blob() – Blob(型付きのバイナリデータ)としてレスポンスを返す,
+
+    ● response.arrayBuffer() – ArrayBuffer(純粋なバイナリデータ)としてレスポンスを返す,
+
+  これまでのところ、fetch オプションは次の通りです:
+
+    ● method – HTTPメソッド,
+
+    ● headers – リクエストヘッダを持つオブジェクト(どんなヘッダも許可されるわけではありません),
+
+    ● body – サブミットするstring/FormData/BufferSource/Blob/UrlSearchParamsデータ。
+
+　-->
+
+</body>
+</html>

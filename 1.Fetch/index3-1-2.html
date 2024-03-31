@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POSTリクエスト</title>
+</head>
+<body>
+<script>
+  "use strict";
+
+  (async () => {
+    let user = {
+      name: 'John',
+      surname: 'Smith'
+    };
+
+    let response = await fetch('/article/fetch-basics/post/user.json', {
+      // method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      // body: JSON.stringify(user)
+    });
+
+    /* json()はResponseインターフェイスのメソッドで、
+      Response のストリームを取得して完全に読み取ります。
+
+      本体のテキストをJSONとして解釈した結果で解決するプロミスを返します。
+
+      なお、このメソッドはjson()という名前であるにもかかわらず、
+      結果はJSONではありません。
+
+      入力としてJSONを取って解釈し、JavaScriptのオブジェクトを生成します。*/
+    let result = await response.json();
+
+    alert(result.message);
+    
+  })()
+</script>
+</body>
+</html>

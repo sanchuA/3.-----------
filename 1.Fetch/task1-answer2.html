@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Github からユーザをフェッチする</title>
+  <script src="https://ja.js.cx/test/libs.js"></script>
+  <script src="./js/test.js"></script>
+</head>
+<body>
+  <script>
+
+    async function getUsers(names) {
+      let jobs = [];
+
+      for (let name of names) {
+        let job = fetch(`https://api.github.com/users/${name}`).then(
+          successResponse => {
+            if (successResponse.status != 200) {
+              return null;
+            } else {
+              return successResponse.json();
+            }
+          },
+          failResponse => {
+            return null;
+          }
+        );
+        jobs.push(job);
+      }
+
+      let results = await Promise.all(jobs);
+
+      return results;
+    }
+
+  </script>
+
+  <!--実行結果:
+
+    // 実行するとwindow画面に以下が表示される。
+    getUsers                           // window
+      ✔gets users from GitHub         // window
+
+
+    /*「Uncaught TypeError: Cannot read property」エラーは、
+      undefined変数を使用またはアクセスしようとしたときに発生するのが通例です
+
+      配列に存在しない要素にアクセスする
+
+      先ほどのオブジェクトと同様に、
+      まだ初期化されていない配列の要素にアクセスしようとしても、このエラーが発生します。*/
+  -->
+
+</body>
+</html>

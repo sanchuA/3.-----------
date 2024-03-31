@@ -1,0 +1,63 @@
+<!DOCTYPE html><!--https://techplay.jp/column/611-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON文字列からオブジェクトへのデコード</title>
+</head>
+<body>
+<script>
+
+  /*JSON文字列からオブジェクトへのデコード
+
+    受け取った文字列のJSONデータをより扱いやすくするために、
+    JavaScriptのオブジェクトの形式に変換してみましょう。
+
+    ここではJavaScriptのJSON.parse()を使って、
+    JSON文字列をオブジェクトに変換する例を示します。
+
+    また、JSON.parse()ではreviver(リバイバー)関数を使用することで、
+    パース中にオブジェクトのプロパティを変換することもできます。*/
+
+  const jsonString = '{"name":"Taro Yamada","age":25,"isEngineer":true}';
+
+    // JSON.parse()の第2引数に、keyとvalueの2つの引数を取るreviver関数を指定しています。
+    // この関数は、キーが「age」であるかどうかをチェックし、
+    // 「age」であれば、その値に10を足した値を返します。
+    //  結果としてオブジェクト内のageの値は10加算され、その結果がコンソールに出力されます。
+    const obj = JSON.parse(jsonString, (key, value) => {
+
+      if (key === 'age') {
+
+        return value + 10;
+
+      }
+
+      return value;
+
+    });
+
+    console.log(obj);
+
+
+  /*実行結果:実行結果:Google Chrome-console
+    // JSON文字列からオブジェクトへのデコード
+
+    ▼{ "name": "Taro Yamada",  "age": 35,  "isEngineer": true }
+        age: 35
+        isEngineer: true
+        "name": "Taro Yamada",
+      ▶[[Prototype]]:Object
+
+
+  */
+  /* Output: { name: 'Taro Yamada', age: 35, isEngineer: true }
+
+  この例では、JSON.parse()の第2引数に、keyとvalueの2つの引数を取るreviver関数を指定しています。
+  この関数は、キーが「age」であるかどうかをチェックし、「age」であれば、その値に10を足した値を返します。
+  結果としてオブジェクト内のageの値は10加算され、その結果がコンソールに出力されます。*/
+
+
+  </script>
+</body>
+</html>

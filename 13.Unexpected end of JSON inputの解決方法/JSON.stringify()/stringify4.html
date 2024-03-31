@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>stringify</title>
+</head>
+<body>
+
+  <!-- stringifyとは
+
+  変数 = JSON.stringify(jsのオブジェクト[, 関数/配列[, 数値]])
+
+  JavaScriptのオブジェクトをJSONにします。
+
+  2つめの引数は、関数または配列を指定できます。
+
+  3つめの引数のみを指定したい場合は、nullを指定します。
+
+  3つめの引数は、指定した数値分の空白文字でインデントします。
+  最大10文字です。
+
+  戻り値は、JSONです。
+
+  以下は、MDNのstringifyのリンクです。
+
+  https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+
+  stringifyメソッドでインデントを設定する
+
+  JSON.stringify(jsのオブジェクト,null,インデント)-->
+
+  <script>
+
+    // サンプル1
+    // JavaScriptのオブジェクトです。
+    const obj1 = { color1: "赤", color2: "青" };
+
+    // インデントを1に設定しています。
+    const json1 = JSON.stringify(obj1, null, 1);
+
+    console.log(json1);
+
+    // サンプル2
+    // インデントを10に設定しています。
+    const json2 = JSON.stringify(obj1, null, 10);
+    console.log(json2);
+
+  </script>
+
+  <!--実行結果:Google Chrome-console
+
+    {
+      "color1": "赤",
+      "color2": "青"
+    }
+    {
+          "color1": "赤",
+          "color2": "青"
+    }
+  -->
+
+  <!-- )JavaScriptのオブジェクトとJSONの違い
+
+      以下はJavaScriptのオブジェクトです。
+      キー(color1とcolor2)にダブルコーテーションがついていません。
+
+      {
+        color1:"赤",
+        color2:"青"
+      }
+
+      以下は、JSONです。
+      キー(color1とcolor2)にダブルコーテーションがついています。
+
+      {
+        "color1":"赤",
+        "color2":"青"
+  } -->
+
+</body>
+</html>

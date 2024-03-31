@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FormData</title>
+</head>
+<body>
+
+  <!-- FormData
+
+  このチャプターはHTMLフォームの送信について説明します:
+    ファイル有無や追加のフィールドなど。
+
+  FormData オブジェクトはそれらの場合に役立ちます。
+
+  コンストラクタは次の通りです:
+
+    let formData = new FormData([form]);
+
+  HTML form要素が提供されている場合、自動的にそのフィールドを捉えます。
+
+  ご想像のとおり、FormData はフォームデータを保存したり
+  送信したりするためのオブジェクトです。
+
+  FormDataに関して特別なことは、fetchのようなネットワークメソッドが、
+  本体(ボディ)としてFormDataオブジェクトを受け入れることができるという点です。
+
+  エンコードされ、Content - Type: form / multipartで送信されます。
+
+  なので、サーバ側から見ると、通常のフォーム送信のように見えます。
+
+※ファイルを含むフォームを送信する
+
+  フォームは常にContent-Type: form/multipartとして送信され、
+  このエンコーディングはファイルを送信することが可能です。
+
+  そのため、通常のフォーム送信と同様に、<input type="file">フィールドも送信できます。
+
+  これは、そのようなフォームの例です:-->
+
+  <form id="formElem">
+
+    <input type="text" name="firstName" value="John">
+
+    Picture: <input type="file" name="picture" accept="image/*">
+
+    <input type="submit">
+
+  </form>
+
+  <script>
+
+    formElem.onsubmit = async (e) => {
+
+      e.preventDefault();
+
+      let response = await fetch('/article/formdata/post/user-avatar', {
+
+        method: 'POST',
+
+        body: new FormData(formElem)
+
+      });
+
+      let result = await response.json();
+
+      alert(result.message);
+
+    };
+
+  </script>
+
+
+  <!--実行結果:
+
+      // 実行するとwidow画面に以下が表示される。:form-multipart3-1.png
+      [John           ]Picture:[ファイルを選択]選択されていません　[送信]
+
+
+      // 『ファイルを選択画面』image8.pngを選択して,[送信]ボタンを押すと:form-multipart3-2.png
+      User with picture, firstName: John, picture size:57126.   // alert
+
+
+      // で以下が表示されるはずだが、表示されない
+      User with picture, firstName: John, picture size:57126.   // alert
+
+
+
+      /*「Uncaught TypeError: Cannot read property」エラーは、
+        undefined変数を使用またはアクセスしようとしたときに発生するのが通例です
+
+        配列に存在しない要素にアクセスする
+
+        先ほどのオブジェクトと同様に、
+        まだ初期化されていない配列の要素にアクセスしようとしても、このエラーが発生します。*/
+    -->
+
+
+</body>
+</html>

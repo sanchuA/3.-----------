@@ -1,0 +1,45 @@
+{
+    "mkdate": "2022\/07\/24 14:50:39",
+    "319": [
+        {
+            "date": "24日(日)",
+            "forecast": "晴時々曇",
+            "mintemp": "33",
+            "maxtemp": "33",
+            "poptimes": "-\/-\/10",
+            "waves": "１メートル",
+            "winds": "南の風　２３区西部　では　南の風　やや強く",
+            "weathers": "晴れ　時々　くもり"
+        },
+        {
+            "date": "25日(月)",
+            "forecast": "晴時々曇",
+            "mintemp": "25",
+            "maxtemp": "25",
+            "poptimes": "-\/-\/10",
+            "waves": "０．５メートル　後　１メートル",
+            "winds": "南の風　２３区西部　では　南の風　やや強く",
+            "weathers": "晴れ　朝晩　くもり"
+        },
+        {
+            "date": "26日(火)",
+            "forecast": "曇",
+            "mintemp": "26",
+            "maxtemp": "33",
+            "poptimes": "-\/-\/-",
+            "waves": "１メートル",
+            "winds": "南の風　やや強く",
+            "weathers": "くもり"
+        },
+        {
+            "date": "27日(水)",
+            "forecast": "曇一時雨",
+            "mintemp": "26",
+            "maxtemp": "31",
+            "poptimes": "-\/-\/-",
+            "waves": "-",
+            "winds": "-",
+            "weathers": "-"
+        }
+    ]
+}

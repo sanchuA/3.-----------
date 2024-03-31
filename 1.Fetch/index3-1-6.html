@@ -1,0 +1,33 @@
+<!DOCTYPE html><!---->
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSTリクエスト</title>
+</head>
+<body>
+<script>
+
+    (async () => {
+
+    let response = await fetch('user.json', {
+
+    })
+
+    let result = await response.json();
+
+    alert(result.message);
+
+    })();
+
+</script>
+
+<!--実行結果:Google Chrome-console
+
+    ▼ {message: 'User saved.'}
+        message:"User saved.
+        ▶ [[Prototype]]:Object
+
+-->
+</body>
+</html>

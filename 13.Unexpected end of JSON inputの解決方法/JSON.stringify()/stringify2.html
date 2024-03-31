@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>stringify</title>
+</head>
+<body>
+
+<!-- stringifyとは
+
+  変数 = JSON.stringify(jsのオブジェクト[, 関数/配列[, 数値]])
+
+  JavaScriptのオブジェクトをJSONにします。
+
+  2つめの引数は、関数または配列を指定できます。
+
+  3つめの引数のみを指定したい場合は、nullを指定します。
+
+  3つめの引数は、指定した数値分の空白文字でインデントします。
+  最大10文字です。
+
+  戻り値は、JSONです。
+
+  以下は、MDNのstringifyのリンクです。
+
+  https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+
+  stringifyメソッドの引数に関数を使用する
+
+  JSON.stringify(jsのオブジェクト,関数)-->
+
+  <script>
+
+    // JavaScriptのオブジェクトです。
+    const obj1 = { color1: "赤", color2: "青" };
+
+    // stringifyメソッドの2つめの引数は関数です。
+    const json1 = JSON.stringify(obj1, (key, value) => {
+
+      //キーがcolor1のとき、値をredで返し、それ以外はそのまま返します。
+      if (key == "color1") {
+
+        return "red";
+
+      }
+
+        //キーがcolor1でないとき、値をそのまま返します。
+        return value;
+
+      });
+
+      // 指定したキー(color1)の値のみが変更されています。JSONです。
+      console.log(json1); //{"color1":"red","color2":"青"}
+
+  </script>
+
+<!--実行結果:Google Chrome-console
+
+  {"color1":"赤","color2":"青"}
+
+-->
+</body>
+</html>

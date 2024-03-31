@@ -1,0 +1,65 @@
+<!DOCTYPE html><!--https://mebee.info/2022/12/28/post-82988/-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <!--Uncaught SyntaxError: Unexpected end of JSON input
+  javascriptで、エラー「Uncaught SyntaxError: Unexpected end of JSON input」
+  が発生した場合の原因と解決方法を記述してます。
+  「JSON.parse」をjson形式でない空の配列に実行した際に発生します。
+  <script>
+
+    const arr = [];
+
+    console.log(JSON.parse(arr));
+
+
+
+    /*実行結果:Google Chrome-console
+
+      Uncaught SyntaxError: Unexpected end of JSON input
+      at JSON.parse (<anonymous>)
+      at json-input1.html:18:22
+
+      // 「無効な JSON」に対して「JSON.parse」を使用しているため
+
+    */
+
+  解決方法  -->
+
+  <script>
+
+    //「try-catch」を使用して、エラーハンドリングする
+
+    const arr = [];
+
+    try {
+
+      JSON.parse(arr);
+
+    } catch (err) {
+
+      console.log(err);
+
+    }
+
+    console.log('finish');
+
+    /*実行結果:Google Chrome-console
+
+      SyntaxError: Unexpected end of JSON input
+        at JSON.parse (<anonymous>)
+        at json-input1-2.html:42:12
+
+      finish
+
+    */
+
+  </script>
+
+</body>
+</html>

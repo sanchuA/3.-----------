@@ -1,0 +1,33 @@
+<!DOCTYPE html><!-- https://mebee.info/2022/06/25/post-57611/ -->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    //「String.raw」を使用したコードで、
+    // 以下のように最後に「\」がある場合にも、同じエラーが発生します。
+    // Uncaught SyntaxError: Unexpected end of input
+
+    // let str = String.raw`\var\www\`;
+
+
+    //「String.raw」で、最後に「\」がある場合は分割して使用する必要があります。
+    let str = String.raw`\var \www` + '\\';
+
+    console.log(str); // \var\www\
+
+
+    /*実行結果:Google Chrome-console
+
+      \var \www\
+
+
+    */
+
+  </script>
+</body>
+</html>

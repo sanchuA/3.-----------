@@ -1,0 +1,29 @@
+<!DOCTYPE html><!---https://lorem-co-ltd.com/fetch-basic/-->
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSTリクエスト</title>
+</head>
+<body>
+<script>
+
+fetch("data.json")
+
+
+.then((data) => data.json())
+
+.then((res) => console.log(res));
+</script>
+
+<!--実行結果:Google Chrome-console
+
+    ▼ {id: '0001', name: 'AAA', age: 20}
+        age:20
+        id:"0001"
+        name:"AAA"
+        ▶ [[Prototype]]:Object
+
+-->
+</body>
+</html>

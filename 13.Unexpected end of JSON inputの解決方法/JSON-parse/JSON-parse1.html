@@ -1,0 +1,47 @@
+<!DOCTYPE html><!--https://products.sint.co.jp/topsic/blog/json-parse-stringify-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON.parse()とは</title>
+</head>
+<body>
+
+<!-- JSON.parse()とは
+
+  JSON形式の文字列をJavaScriptオブジェクトに変換するのがJSON.parse()メソッドです。
+  これにより、JSONデータをJavaScriptで操作しやすくなります。-->
+
+  <script>
+
+    // 使用方法(オブジェクト準備～.parse()実行):JSON形式の文字列
+    const jsonString = '{"name": "Sayoko", "age": 25}';
+
+    // JSON形式の文字列をJavaScriptオブジェクトに変換する
+    const jsonObject = JSON.parse(jsonString);
+
+    // 出力指示
+    console.log(jsonObject.name);
+
+    /*実行結果:Google Chrome-console
+
+      Sayoko
+
+    */
+
+  /*JSON.parse()の間違えやすいポイント
+
+    1.JSON形式の文字列内にあるプロパティ名と値はダブルクォーテーション(")で囲む必要があります。
+      シングルクォーテーション（'）を使うと、エラーが発生します。
+
+    2.JSON.parse()は、文字列が正しいJSON形式であることを前提としています。
+
+      文字列の末尾がカンマになっているなど不正な形式の場合、
+      SyntaxErrorが発生します。
+
+  */
+
+  </script>
+
+</body>
+</html>

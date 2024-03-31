@@ -1,0 +1,55 @@
+<!DOCTYPE html><!-- https://white-sesame.jp/archives/blog/2978 -->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+<!-- JavaScript:localhost:3000/ -->
+
+<script>
+
+  const url = 'http://localhost:8888/file_archives/'
+
+    const postData = {
+
+      operate: 'fetch',
+
+      option: 'none'
+
+    }
+
+    fetch(url,
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify(postData)
+      })
+
+      .then(res => res.json())
+
+      .then(files => {
+
+        setData(files)
+
+      })
+
+
+  /* 実行結果:Google Chrome-console
+
+    Uncaught(in promise) TypeError: Failed to fetch
+      at json - input4.html: 24: 5
+  */
+
+
+</script>
+
+
+</body>
+</html>

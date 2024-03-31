@@ -1,0 +1,38 @@
+<!DOCTYPE html><!--https://codepen.io/jun1sfukui/pen/jOwaoGq?editors=0101-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POSTリクエスト</title>
+  <link rel="stylesheet" href="./css/style1.css">
+</head>
+<body>
+
+  <!--POSTリクエスト-->
+
+  <h1>Fetch sample 01</h1>
+  <button onclick="fetchNormal()">awaitを使わないfetch呼び出し</button>
+
+  <button onclick="fetchAsync()">awaitを使ったfetch呼び出し</button>
+
+  <button onclick="clearResult()">結果のクリア</button>
+
+  <h2>結果表示</h2>
+  <div id="result">
+
+  </div>
+
+  <script src="./js/fetch1.js"></script>
+
+<!--実行結果:Google Chrome-console
+
+    Fetch sample 01    // h1
+
+    [awaitを使わないfetch呼び出し][awaitを使ったfetch呼び出し][結果のクリア]
+
+    結果表示
+
+-->
+
+</body>
+</html>

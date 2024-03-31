@@ -1,0 +1,37 @@
+<!DOCTYPE html><!--https://note.k05.biz/2022/07/js-fetch-api/#close-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POSTリクエスト</title>
+</head>
+<body>
+
+  <!--POSTリクエスト-->
+
+  <script>
+    // Promiseのまま扱う際のfetchの使い方
+      function fetchNormal() {
+        // 気象庁の今日の東京の天気API(JSON)
+        const url = 'https://www.jma.go.jp/bosai/forecast/data/overview_forecast/130000.json';
+
+        const promise = fetch(url);
+        
+        promise
+          .then(response => response.json())
+          .then(jsondata => {
+            showResult("result: " + JSON.stringify(jsondata));
+          });
+      }
+  </script>
+
+  <!--実行結果:Google Chrome-console
+
+    ▼ {message: 'User saved.'}
+        message:"User saved.
+        ▶ [[Prototype]]:Object
+
+-->
+
+</body>
+</html>

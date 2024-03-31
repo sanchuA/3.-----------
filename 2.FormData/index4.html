@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FormData</title>
+</head>
+<body style="margin:0">
+
+  <!-- FormData
+
+  このチャプターはHTMLフォームの送信について説明します:
+    ファイル有無や追加のフィールドなど。
+
+  FormData オブジェクトはそれらの場合に役立ちます。
+
+  コンストラクタは次の通りです:
+
+    let formData = new FormData([form]);
+
+  HTML form要素が提供されている場合、自動的にそのフィールドを捉えます。
+
+  ご想像のとおり、FormData はフォームデータを保存したり
+  送信したりするためのオブジェクトです。
+
+  FormDataに関して特別なことは、fetchのようなネットワークメソッドが、
+  本体(ボディ)としてFormDataオブジェクトを受け入れることができるという点です。
+
+  エンコードされ、Content - Type: form / multipartで送信されます。
+
+  なので、サーバ側から見ると、通常のフォーム送信のように見えます。
+
+※Blob データを含むフォームを送信する
+
+  チャプターFetch で見てきたように、動的に生成されたBlobを送信します(e.g 画像)。
+
+  fetchパラメータのbodyに直接指定することができます。
+
+  しかし、実際には画像を個別に送信するのではなく、
+
+  フォームの一部として、"name"や他のメタデータのような追加のフィールドと
+  一緒に送信するのが便利なことが多いです。
+
+  また、通常サーバは生のバリナリデータよりもマルチパートエンコード形式を
+  受け入れるのに適しています。
+
+  この例は、FormDataを使って他のフィールドと一緒に<canvas>からの画像を送信します。:-->
+
+  <canvas id="canvasElem" width="100" height="80" style="border:1px solid"></canvas>
+
+  <input type="button" value="Submit" onclick="submit()">
+
+  <script>
+
+    canvasElem.onmousemove = function(e) {
+
+      let ctx = canvasElem.getContext('2d');
+
+      ctx.lineTo(e.clientX, e.clientY);
+
+      ctx.stroke();
+
+    };
+
+    async function submit() {
+
+      let imageBlob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'));
+
+      let formData = new FormData();
+
+      formData.append("firstName", "John");
+
+      formData.append("image", imageBlob, "image.png");
+
+      let response = await fetch('/article/formdata/post/image-form', {
+
+        method: 'POST',
+
+        body: formData
+
+      });
+
+      let result = await response.json();
+
+      alert(result.message);
+
+    }
+
+  </script>
+
+  <!--実行結果:
+
+    // 実行するとwidow画面に以下が表示される。：form-maltipart4.png
+    [canvas      ][submit]
+
+
+    // エラー
+    // Uncaught (in promise) SyntaxError: Unexpected end of JSON input
+    // at submit (index4.html:83:35)
+
+
+    /*「Uncaught TypeError: Cannot read property」エラーは、
+      undefined変数を使用またはアクセスしようとしたときに発生するのが通例で
+      配列に存在しない要素にアクセスす
+      先ほどのオブジェクトと同様に、
+      まだ初期化されていない配列の要素にアクセスしようとしても、このエラーが発生します。*/
+  -->
+
+
+<!-- 画像 Blob がどのように追加されているかに注目してください:
+
+  formData.append("image", imageBlob, "image.png");
+
+  これは、フォームに<input type="file" name="image">があり、
+  訪問者がファイルシステムからimage.png(3番目の引数)という名前の
+  ファイルを送信したのと同じです。
+
+
+※サマリ
+
+  FormDataオブジェクトはHTMLフォームをキャプチャして(捉えて)、
+
+  それらをfetchや他のネットワークリクエストを使用して送信するために使われます。
+
+
+  HTMLフォームからnew FormData(form)作成する、
+  あるいは空のオブジェクト作成してから次のメソッドで
+  フィールドを追加することができます。:
+
+    ● formData.append(name, value)
+
+    ● formData.append(name, blob, fileName)
+
+    ● formData.set(name, value)
+
+    ● formData.set(name, blob, fileName)
+
+  2つの特徴があります:
+
+    1.setメソッドは同じ名前のフィールドを削除します。
+      appendは削除しません。
+
+    2.ファイルを送信するには、3つの引数の構文が必要になります。
+
+      最後の引数はファイル名であり、<input type="file">の場合、
+      通常はユーザのファイルシステムからとられます。
+
+  他のメソッドは次のとおりです:
+
+    ● formData.delete(name)
+
+    ● formData.get(name)
+
+    ● formData.has(name)
+
+  以上です!
+
+</body>
+</html>

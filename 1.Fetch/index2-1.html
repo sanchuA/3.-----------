@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch</title>
+</head>
+<body>
+
+<!--Headers
+
+  response.headersには、Mapライクなヘッダオブジェクトがあります。
+
+  個々のヘッダを取得したり、それらをイテレートすることができます。-->
+
+<script>
+  "use strict";
+
+  (async () => {
+
+    let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
+
+    // ヘッダを1つ取得
+    alert(response.headers.get('Content-Type')); // application/json; charset=utf-8
+
+    // すべてのヘッダをイテレート
+    for (let [key, value] of response.headers) {
+
+      alert(`${key} = ${value}`);
+
+    }
+
+  })()
+
+</script>
+
+<!--実行結果:
+
+    application/json; charset=utf-8                                       // alert
+    cache-control = public, max-age=60, s-maxage=60                       // alert
+    content-type = application/json; charset=utf-8                        // alert
+    etag = W/"3742cb3ab7174ce8b240886253e593bc
+    f1b7b6475b9e8f7cb9721bd1fbaedf11"                                     // alert
+    last-modified = Fri, 08 Mar 2024 17:06:15 GMT                         // alert
+
+    link = <https://api.github.com/repositories/93253246/commits?
+    page=2>; rel="next", <https://api.github.com/repositories/93253246/
+    commits?page=216>; rel="last"                                         // alert
+
+    x-github-media-type = github.v3; format=json                          // alert
+    x-github-request-id = D94C:D9649:14FE062E:15201F99:66033D0D           // alert
+    x-ratelimit-limit = 60                                                // alert
+    x-ratelimit-remaining = 43                                            // alert
+    x-ratelimit-reset = 1711488294                                        // alert
+    x-ratelimit-resource = core                                           // alert
+    x-ratelimit-used = 17                                                 // alert
+
+-->
+
+
+<!--
+  // 配列の各要素など、同種の複数の対象に同じ処理を順番に繰り返し実行する処理や、
+  // そのような処理を記述したコードのことを指す。 伝統的にはfor文など汎用 ...
+
+  何故async/awaitを利用するのか
+  Promiseを利用した構文よりも、簡潔に非同期処理が書けるから。
+
+  asyncとは
+
+  非同期関数を定義する関数宣言のこと。
+  以下のように関数の前にasyncを宣言することにより、
+  非同期関数（async function）を定義できる。
+
+  async function sample() {}
+
+  async function（asyncで宣言した関数は何をするのか
+
+    async functionは呼び出されるとPromiseを返す。
+
+    async functionが値をreturnした場合、Promiseは戻り値をresolveする。
+
+    async functionが例外や何らかの値をthrowした場合はその値をrejectする。
+
+
+  awaitとは
+    async function内でPromiseの結果（resolve、reject）が返されるまで待機する
+    (処理を一時停止する)演算子のこと。
+
+  以下のように、関数の前にawaitを指定すると、
+  その関数のPromiseの結果が返されるまで待機する。
+
+
+  awaitは何をするのか
+
+    ● awaitを指定した関数のPromiseの結果が返されるまで、
+    async function内の処理を一時停止する。
+
+    ● 結果が返されたらasync function内の処理を再開する。
+
+  awaitはasync function内でないと利用できないため、
+  async/awaitの利用例を見ていく。
+-->
+
+
+<!-- …しかし、設定できない禁止されたHTTPヘッダ のリストがあります。:
+
+    Accept-Charset, Accept-Encoding
+    Access-Control-Request-Headers
+    Access-Control-Request-Method
+    Connection
+    Content-Length
+    Cookie, Cookie2
+    Date
+    DNT
+    Expect
+    Host
+    Keep-Alive
+    Origin
+    Referer
+    TE
+    Trailer
+    Transfer-Encoding
+    Upgrade
+    Via
+    Proxy-*
+    Sec-*
+
+  これらのヘッダは適切で安全なHTTPを保証するため、
+  ブラウザによってのみ制御されます。-->
+</body>
+</html>

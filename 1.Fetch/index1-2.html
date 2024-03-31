@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch</title>
+</head>
+<body>
+
+  <!-- Fetch
+
+JavaScript は、必要に応じていつでもサーバへリクエストを送信し、
+新しい情報を読み込むことができます。
+
+例えば、次のようなことができます:
+
+注文を送信する
+ユーザ情報を読み込む
+サーバから最新の更新情報を受け取る
+…など
+
+…そしてこれらはすべてページをリロードすることなく行うことができます。
+
+それを表す包括的な用語"AJAX"(Asynchronous Javascript And Xml)があります。
+XMLを使う必要はありません: この用語は昔から来ています。
+
+ネットワークリクエストを送信し、サーバから情報を取得するための様々な方法があります。
+
+fetch()メソッドはモダンで多目的に利用できるため、これから始めましょう。
+fetchは数年間進化と改善を続けています。
+
+今のところサポートはブラウザの間でとてもしっかりしています。
+
+基本構文は次の通りです:
+
+  let promise = fetch(url, [options])
+
+  ● url – アクセスする URL
+
+  ● options – オプションのパラメータ: メソッドやヘッダなど
+
+ブラウザはすぐにリクエストを開始し、promiseを返します。
+
+レスポンスの取得は通常2段階のプロセスになります。
+
+promiseは、サーバがヘッダを応答するとすぐに
+組み込みのResponseクラスのオブジェクトでresolveします。
+
+そのため、HTTPステータスをチェックすることで、
+リクエストが成功したのか失敗したのかを確認したり、
+ヘッダをチェックすることができます。
+が、まだ本文は持っていません。
+
+promiseはfetchがHTTPリクエストを作るすることができなかった場合、
+
+例えばネットワークの問題やそのようなサイトがない場合にrejectします。
+404や500のようなHTTPエラーも通常のフローとみなされます。
+
+レスポンスのプロパティでそれらを確認することができます。:
+
+  ● ok – boolean, HTTPステータスコードが200-299の場合trueです。
+
+  ● status – HTTPステータスコード.
+
+例:
+
+<script>
+
+  let response = await fetch(url);
+
+  if (response.ok) { // HTTP ステータスが200-299 の場合
+
+    // レスポンスの本文を取得(後述)
+    let json = await response.json();
+
+  } else {
+    alert("HTTP-Error: " + response.status);
+  }
+
+</script>
+
+-->
+  <!-- レスポンスの本文を取得するには、追加のメソッド呼び出しが必要です。
+
+  Responseは様々な形式で本文にアクセスするための、
+  複数のpromiseベースのメソッドを提供しています。:
+
+    ● response.json() – レスポンスをJSONオブジェクトとしてパースします
+
+    ● response.text() – レスポンスをテキストとして返します
+
+    ● response.formData() – FormDataオブジェクト(form/multipart encoding)として返します,
+
+    ● response.blob() – Blob (型付きのバイナリデータ)としてレスポンスを返します,
+
+    ● response.arrayBuffer() – ArrayBuffer(純粋なバイナリデータ)としてレスポンスを返します,
+
+    ● 加えて, response.bodyはReadableStreamオブジェクトで、
+      本文をチャンク毎に読むことができます。
+
+  例えば、ここではGithubから最新のコミットのJSONオブジェクトを取得します。:-->
+
+  <script>
+
+    (async () => {
+
+      fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits')
+        .then(response => response.json())
+        .then(commits => alert(commits[0].author.login));
+
+    })()
+
+  </script>
+
+  <!--実行結果:
+
+    liakan                  // alert
+
+  -->
+
+
+
+</body>
+</html>

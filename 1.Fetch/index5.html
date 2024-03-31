@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>画像を送信する</title>
+</head>
+<body style="margin:0">
+  <!-- 画像を送信する
+
+    BlobやBufferSourceを使用して、バイナリデータを直接送信することもできます。
+
+    例えば、ここにマウスを動かすことで描画ができる< canvas >があります。
+    "submit"ボタンをクリックすると、画像をサーバに送信します。:-->
+  <canvas id="canvasElem" width="100" height="80" style="border:1px solid"></canvas>
+
+  <input type="button" value="送信" onclick="submit()">
+
+  <script>
+
+    canvasElem.onmousemove = function (e) {
+
+      let ctx = canvasElem.getContext('2d');
+
+      ctx.lineTo(e.clientX, e.clientY);
+
+      ctx.stroke();
+
+    };
+
+    function submit() {
+
+      /*HTMLCanvasElement.toBlob()メソッドは、
+        キャンバスに含まれる画像を表すBlobオブジェクトを生成します。
+
+      */
+      canvasElem.toBlob(function (blob) {
+
+        fetch('http://127.0.0.1.5501/article/fetch-basics/post/image', {
+
+          method: 'POST',
+
+          body: blob
+
+        })
+          .then(response => response.json())
+
+          /*第2引数はreplacerというもので、JSONとして出力する値の調整ができるのですが、
+          ここではnullとして全てそのまま出力します。
+
+          第3引数は、結果の文字列のインデントで使用するスペースの数を指定するものです。
+          結果のJSON文字列はコンソールに出力され、オブジェクトの各レベルが
+          スペース2つ分インデントされていることが分かります。*/
+          .then(result => alert(JSON.stringify(result, null, 2)))
+
+      }, 'image/png');
+    }
+
+  </script>
+
+  <!--実行結果:
+
+    // 実行するとwindowに左にcanvas、右にSubmitが表示される ：fetch2.png
+    // canvasに何かを書いてSubmitすると、以下が表示される。
+    Image saved, size:943.        // alert
+
+    -->
+
+
+<!--サマリ
+
+  典型的なfetchリクエストは２つのawaitから成ります:
+
+    let response = await fetch(url, options); // レスポンスヘッダでresolveする
+
+    let result = await response.json();       // 本文をjsonとして読む
+
+  もしくは、promiseを使った書き方:
+
+  fetch(url, options)
+    .then(response => response.json())
+    .then(result => /* result を処理する */)
+
+  レスポンスのプロパティ:
+
+    ● response.status – レスポンスのHTTP コード,
+
+    ● response.ok – ステータスが200-299の場合true
+
+    ● response.headers – HTTPヘッダを持つMapライクなオブジェクト
+
+  レスポンス本文を取得するメソッド:
+
+    ● response.json() – レスポンスをJSON オブジェクトとしてパースする,
+
+    ● response.text() – レスポンスをテキストとして返す,
+
+    ● response.formData() – FormDataオブジェクト(form/multipart encoding)として返す,
+
+    ● response.blob() – Blob(型付きのバイナリデータ)としてレスポンスを返す,
+
+    ● response.arrayBuffer() – ArrayBuffer(純粋なバイナリデータ)としてレスポンスを返す,
+
+  これまでのところ、fetch オプションは次の通りです:
+
+    ● method – HTTPメソッド,
+
+    ● headers – リクエストヘッダを持つオブジェクト(どんなヘッダも許可されるわけではありません),
+
+    ● body – サブミットするstring/FormData/BufferSource/Blob/UrlSearchParamsデータ。
+
+　-->
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>画像を送信する</title>
+</head>
+<body style="margin:0">
+<!-- 画像を送信する
+
+    BlobやBufferSourceを使用して、バイナリデータを直接送信することもできます。
+
+    例えば、ここにマウスを動かすことで描画ができる< canvas >があります。
+    "submit"ボタンをクリックすると、画像をサーバに送信します。:-->
+  <canvas id="canvasElem" width="100" height="80" style="border:1px solid"></canvas>
+
+  <input type="button" value="送信" onclick="submit()">
+
+  <script>
+
+    canvasElem.onmousemove = function (e) {
+
+      let ctx = canvasElem.getContext('2d');
+
+      ctx.lineTo(e.clientX, e.clientY);
+
+      ctx.stroke();
+
+    };
+
+    async function submit() {
+
+      let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'));
+
+      let response = await fetch('http://127.0.0.1.5501/article/fetch-basics/post/image', {
+
+        method: 'POST',
+
+        body: blob
+
+      });
+
+      /* Uncaught SyntaxError: Unexpected end of input
+
+          ● エラーの理由：予期しない入力の終わりが見つかった
+
+          ● よくある原因：開き括弧に対して閉じ括弧の数があっていない
+
+          ● 対策：文法に気をつける
+
+        訳すと「キャッチされなかった文法エラー：予期しない入力の終わり」です。なんのこっちゃ。
+
+        このエラーはだいたい括弧の数があっていない時に発生します。
+
+        括弧開いたものの閉じてない、という状況です。
+        */
+
+      let result = await response.json();
+
+      alert(result.message);
+
+    }
+
+  </script>
+
+  <!--実行結果:
+
+    // 実行するとwindowに左にcanvas、右にSubmitが表示される ：fetch2.png
+    // canvasに何かを書いてSubmitすると、以下が表示される。
+    Image saved, size:943.        // alert
+
+    -->
+
+
+  <!-- ここでも Content-Type を手動で設定する必要がありませんでした。なぜなら、Blob オブジェクトは組み込みのタイプ(toBlob により生成される image/png)を持っているからです。
+
+  submit() 関数はこのように async/await なしで書くこともできます。: -->
+
+</body>
+</html>

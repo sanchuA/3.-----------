@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FormData</title>
+</head>
+<body>
+
+  <!-- FormData
+
+  このチャプターはHTMLフォームの送信について説明します:
+    ファイル有無や追加のフィールドなど。
+
+  FormData オブジェクトはそれらの場合に役立ちます。
+
+  コンストラクタは次の通りです:
+
+    let formData = new FormData([form]);
+
+  HTML form要素が提供されている場合、自動的にそのフィールドを捉えます。
+
+  ご想像のとおり、FormData はフォームデータを保存したり
+  送信したりするためのオブジェクトです。
+
+  FormDataに関して特別なことは、fetchのようなネットワークメソッドが、
+  本体(ボディ)としてFormDataオブジェクトを受け入れることができるという点です。
+
+  エンコードされ、Content - Type: form / multipartで送信されます。
+
+  なので、サーバ側から見ると、通常のフォーム送信のように見えます。
+
+※FormDataメソッド
+
+  次のメソッドを使って FormData のフィールドを変更することができます:
+
+    ● formData.append(name, value) – 指定されたnameとvalueのフォームフィールドを追加します。
+
+    ● formData.append(name, blob, fileName) –
+        <input type="file">のようにフィールドを追加します。
+
+        3つ目の引数fileNameはファイル名を設定します(フィールド名ではありません)。
+        ファイルシステムでのファイル名です。
+
+    ● formData.delete(name) – 指定されたnameのフィールドを削除します。
+
+    ● formData.get(name) – 指定されたnameのフィールド値を取得します。
+
+    ● formData.has(name) – 指定されたnameのフィールドが存在する場合にはtrueを、
+                            そうでなければfalseを返します。
+
+  フォームは、技術的には同じnameをもつ複数のフィールドを持つことが可能なので、
+  複数のappend呼び出しをすると、その分同じ名前のフィールドが追加されます。
+
+  appendと同じ構文のsetメソッドもあります。
+
+  違いは .setは指定されたnameのフィールドをすべて削除し、
+  その後新しいフィールドを追加します。
+
+  なので、setをした場合、nameのフィールドが1つであることを確認してみてください。:
+
+    ● formData.set(name, value),
+
+    ● formData.set(name, blob, fileName).
+
+  また、for..of ループを使用して、formData フィールドを反復することもできます:-->
+
+  <script>
+
+    let formData = new FormData();
+
+    formData.append('key1', 'value1');
+
+    formData.append('key2', 'value2');
+
+    // key/value ペアをリストします
+    for (let [name, value] of formData) {
+
+        alert(`${name} = ${value}`); // key1=value1, then key2=value2
+
+    }
+
+  </script>
+
+  <!--実行結果:
+
+      // 実行するとalert画面に以下が表示される。
+      key1 = value1         // alert
+      key2 = value2         // alert
+
+
+      // 以下が表示されるはずだが、表示されない
+      User saved.                            // alert
+
+
+
+      /*「Uncaught TypeError: Cannot read property」エラーは、
+        undefined変数を使用またはアクセスしようとしたときに発生するのが通例です
+
+        配列に存在しない要素にアクセスする
+
+        先ほどのオブジェクトと同様に、
+        まだ初期化されていない配列の要素にアクセスしようとしても、このエラーが発生します。*/
+    -->
+
+  <!-- ここでは、サーバーはフォームを使用したPOST要求を受け入れ、 “User saved” と返信します。 -->
+
+</body>
+</html>

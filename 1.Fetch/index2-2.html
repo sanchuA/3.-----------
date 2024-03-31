@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Headers</title>
+</head>
+<body>
+
+  <!--Headers:関連付けられた HTTP チャネルが応答ヘッダー構成を評価できるように
+              httpEndpointエレメント内に構成されるエレメント。
+
+  response.headersには、Mapライクなヘッダオブジェクトがあります。
+
+  個々のヘッダを取得したり、それらをイテレートすることができます。
+
+  //ヘッダを設定するには、次のようにheadersオプションを使用します:
+
+  -->
+
+  <script>
+    "use strict";
+
+    let response = fetch(protectedUrl, {
+      headers: {
+        Authentication: 'abcdef'
+      }
+    });
+
+  </script>
+
+  <!-- …しかし、設定できない禁止されたHTTPヘッダ のリストがあります。:
+
+    Accept-Charset, Accept-Encoding
+    Access-Control-Request-Headers
+    Access-Control-Request-Method
+    Connection
+    Content-Length
+    Cookie, Cookie2
+    Date
+    DNT
+    Expect
+    Host
+    Keep-Alive
+    Origin
+    Referer
+    TE
+    Trailer
+    Transfer-Encoding
+    Upgrade
+    Via
+    Proxy-*
+    Sec-*
+
+  これらのヘッダは適切で安全なHTTPを保証するため、
+  ブラウザによってのみ制御されます。-->
+
+  <!--実行結果:
+
+    application/json; charset=utf-8                                       // alert
+    cache-control = public, max-age=60, s-maxage=60                       // alert
+    content-type = application/json; charset=utf-8                        // alert
+    etag = W/"3742cb3ab7174ce8b240886253e593bc
+    f1b7b6475b9e8f7cb9721bd1fbaedf11"                                     // alert
+    last-modified = Fri, 08 Mar 2024 17:06:15 GMT                         // alert
+
+    link = <https://api.github.com/repositories/93253246/commits?
+    page=2>; rel="next", <https://api.github.com/repositories/93253246/
+    commits?page=216>; rel="last"                                         // alert
+
+    x-github-media-type = github.v3; format=json                          // alert
+    x-github-request-id = D94C:D9649:14FE062E:15201F99:66033D0D           // alert
+    x-ratelimit-limit = 60                                                // alert
+    x-ratelimit-remaining = 43                                            // alert
+    x-ratelimit-reset = 1711488294                                        // alert
+    x-ratelimit-resource = core                                           // alert
+    x-ratelimit-used = 17                                                 // alert
+
+  -->
+
+
+
+</body>
+</html>

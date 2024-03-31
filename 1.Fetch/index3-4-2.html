@@ -1,0 +1,30 @@
+<!DOCTYPE html><!---https://news.mynavi.jp/techplus/article/zerojavascript-8/-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POSTリクエスト</title>
+</head>
+<body>
+<script>
+
+  // 現在時刻をconsoleに表示
+  fetch('https://api.aoikujira.com/time/get.php')
+
+  .then(response => response.text())
+
+  .then(data => console.log(data));
+</script>
+
+<!--実行結果:Google Chrome-console
+
+  ▼Promise {<pending>}
+    ▶ [[Prototype]]: Promise
+      [[PromiseState]]: "fulfilled"
+      [[PromiseResult]]: undefined
+
+  2024/03/30 23:58:46
+
+-->
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html><!--https://techplay.jp/column/611-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>オブジェクトのJSONへのエンコード</title>
+</head>
+<body>
+<script>
+
+  /*JavaScriptでオブジェクトをJSONへエンコードするためには、
+    JSON.stringify()を使用します。
+
+    JSON.stringify()の戻り値はJSON記法のテキストです。*/
+
+  const obj = {
+
+    name: 'Taro Yamada',
+    age: 25,
+    isEngineer: true
+
+  }
+
+  // JSON.stringify()メソッドは、
+  // あるJavaScriptのオブジェクト(obj)や値をJSON文字列に変換します
+  const objAsString = JSON.stringify(obj)
+
+  console.log(objAsString)
+
+
+  /*この例で変数objは、プロパティname、age、isEngineerを持つオブジェクトです。
+
+    JSON.stringify()は引数としてオブジェクトを受け取り、
+    そのオブジェクトをJSON記法の文字列(keyとvalueの両方にダブルクオテーション)にエンコして返します。
+
+    そして、その文字列をコンソールに出力しています
+
+    また、JSON.stringify()ではオプションを指定することで
+    インデントやプロパティのフィルタリングなどの文字列をフォーマットすることができます。*/
+
+</script>
+
+  <!--実行結果:実行結果:Google Chrome-console
+      // オブジェクトの中身を確認したい
+
+    {"name":"Taro Yamada","age":25,"isEngineer":true}
+
+  -->
+
+</body>
+</html>

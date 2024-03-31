@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>stringify</title>
+</head>
+<body>
+
+  <!-- stringifyとは
+
+  変数 = JSON.stringify(jsのオブジェクト[, 関数/配列[, 数値]])
+
+  JavaScriptのオブジェクトをJSONにします。
+
+  2つめの引数は、関数または配列を指定できます。
+
+  3つめの引数のみを指定したい場合は、nullを指定します。
+
+  3つめの引数は、指定した数値分の空白文字でインデントします。
+  最大10文字です。
+
+  戻り値は、JSONです。
+
+  以下は、MDNのstringifyのリンクです。
+
+  https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+
+  stringifyメソッドで一致するキーのみ取得する
+
+  JSON.stringify(jsのオブジェクト,配列)-->
+
+  <script>
+
+    // JavaScriptのオブジェクトです。
+    const obj1 = { color1: "赤", color2: "青" , color3: "黄" };
+
+    // stringifyメソッドの2つめの引数は配列です。
+    const json1 = JSON.stringify(obj1, ["color1", "color3"]);
+
+    // 指定したキーと一致するJSONのみが表示されます。JSONです。
+    console.log(json1); //{"color1":"red","color2":"青"}
+
+  </script>
+
+  <!--実行結果:Google Chrome-console
+
+    {"color1":"赤","color3":"黄"}
+
+-->
+</body>
+</html>

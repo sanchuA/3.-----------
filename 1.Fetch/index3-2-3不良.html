@@ -1,0 +1,49 @@
+<!DOCTYPE html><!--https://note.k05.biz/2022/07/js-fetch-api/#close-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POSTリクエスト</title>
+</head>
+<body>
+
+  <!--POSTリクエスト-->
+
+  <script>
+    // 通常のfetchの使い方
+    function fetchNormal() {
+      // 気象庁の今日の東京の天気API(JSON)
+      const url = 'https://www.jma.go.jp/bosai/forecast/data/overview_forecast/130000.json';
+      //const url = 'http://abc'; // TypeError: Failed to fetch
+      //const url = 'abc'; // status=404
+      //const url = ''; // status=200 & undefined json.
+
+      const promise = fetch(url);
+      promise
+        .then(response => {
+          // レスポンスステータスのチェック。200以外でもresponseが返ればここへ来る。ネットワークエラー等の場合、then()にはこないでcatch()へ行く。
+          if (!response.ok) {
+            // 200以外ならばエラーメッセージを投げる
+            throw new Error(`response.status = ${response.status}, response.statusText = ${response.statusText}`);
+          }
+
+          return response.json(); // jsonデータの取得結果をPromiseで返す。
+        })
+        .then(jsondata => {
+          showResult("result: " + JSON.stringify(jsondata));
+        }).catch(err => {
+          showResult("err: " + err);
+        });
+    }
+  </script>
+
+  <!--実行結果:Google Chrome-console
+
+    ▼ {message: 'User saved.'}
+        message:"User saved.
+        ▶ [[Prototype]]:Object
+
+  -->
+
+</body>
+</html>

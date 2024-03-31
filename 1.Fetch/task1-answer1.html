@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Github からユーザをフェッチする</title>
+  <script src="https://ja.js.cx/test/libs.js"></script>
+  <script src="./js/test.js"></script>
+</head>
+<body>
+
+<!-- Github からユーザをフェッチする
+
+  Githubのログイン(ユーザ名)の配列を取得し、
+  Githubからユーザをフェッチし、
+  Githubユーザの配列を返す非同期関数getUsers(names)を作成してくだ さい。
+
+  指定されたUSERNAMEに対するユーザ情報のGithub urlは https://api. github.com/users/USERNAMEです。
+
+  サンドボックスにテスト例があります。
+
+  重要な点:
+
+  ユーザ毎に1つのfetchリクエストがあるはずです。
+
+  また、リクエストはお互い待つ必要はありません。
+
+  データはなるべく早く取得できるようにしてください。
+
+  リクエストが失敗した場合、またはそのようなユーザがいない場合は、
+  関数は結果の配列でnullを返します。-->
+
+<!-- 解答
+
+　ユーザをフェッチするには次が必要です:
+
+    1.fetch('https://api.github.com/users/USERNAME')
+
+    2.レスポンスのステータスが200であれば、JSオブジェクトを読むため.json()を呼び出します。
+
+  fetch が失敗、またはレスポンスステータスが200以外の数値の場合は、
+  結果の配列で単にnullを返します。
+
+  これはそのコードです:-->
+  <script>
+
+    async function getUsers(names) {
+      let jobs = [];
+
+      for (let name of names) {
+        let job = fetch(`https://api.github.com/users/${name}`).then(
+          successResponse => {
+            if (successResponse.status != 200) {
+              return null;
+            } else {
+              
+              return successResponse.json();
+            }
+          },
+          failResponse => {
+            return null;
+          }
+        );
+        jobs.push(job);
+      }
+
+      let results = await Promise.all(jobs);
+
+      return results;
+    }
+
+  </script>
+
+  <!--実行結果:
+
+    // 実行するとwindow画面に以下が表示される。
+                                passes: 1 failures: 0 duration: 0.23s 100%   // Window
+    getUsers                                                                // Window
+      ✔gets users from GitHub                                              // Window
+
+
+    /*「Uncaught TypeError: Cannot read property」エラーは、
+      undefined変数を使用またはアクセスしようとしたときに発生するのが通例です
+
+      配列に存在しない要素にアクセスする
+
+      先ほどのオブジェクトと同様に、
+      まだ初期化されていない配列の要素にアクセスしようとしても、このエラーが発生します。*/
+  -->
+
+<!-- 注意:
+  .then 呼び出しは、fetchに直接アタッチされています。
+
+  そのため、レスポンスがある場合には他のフェッチは待たずにすに.json()を読み始めます。
+
+  await Promise.all(names.map(name => fetch()...)))を使用して、
+  その結果に対して.json()を呼び出すと、すべてのフェッチが応答するのを待ちます。
+
+  .json()を各fetchに直接追加することで、
+  個々のフェッチがお互いを待たずにデータをJSONとして読み始めることを保証します。
+
+  これは、たとえ私たちが主にasync/awaitを使っていても、
+  低レベルのPromise APIがいかに有用であるかの例です。
+-->
+
+</body>
+</html>

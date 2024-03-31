@@ -1,0 +1,65 @@
+<!DOCTYPE html><!---->
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSTリクエスト</title>
+</head>
+<body>
+<script>
+
+    const user = {
+
+        name: 'John',
+
+        surname: 'Smith'
+
+    };
+
+    const url="...";
+
+    //Object.entries() メソッドは、引数に与えたオブジェクトが所有する、
+    //文字列をキーとした列挙可能なプロパティの組 [key, value] からなる配列を返します
+
+    //Object.entries(user)を使用してObjectのループを書けます
+
+    /*const array = [1,2,3];
+    const result = array.reduce((prev,current)=>prev + current,0);
+
+    reduceもmap等とどうようループします。
+    で今回は配列が3つなので3回ループし、
+    それぞれの処理として下記のような処理が実行されます。
+
+    1回目：prevの値は初期値の0、currentには1が入ります。
+        なので、0 + 1 = 1が（次のprev値として）返ります。
+
+    2回目：prevの値は1、currentには2が入るので、 1 + 2 = 3が返ります。
+
+    3回目：prevの値は3、currentには3が入るので、 3 + 3 = 6が返ります。
+    で、これが最終的な結果として6が返ります。
+
+
+    */
+    const body=Object.entries(user).reduce((x,y)=>(x.append(y[0],y[1]),x),new FormData());
+
+    fetch(url, {
+
+        method: 'POST',
+
+        body,
+
+    })
+
+    .then(res=>res.text()).then(console.log);
+
+</script>
+
+<!--実行結果:Google Chrome-console
+
+    ▼ {message: 'User saved.'}
+        message:"User saved.
+        ▶ [[Prototype]]:Object
+
+-->
+</body>
+</html>
