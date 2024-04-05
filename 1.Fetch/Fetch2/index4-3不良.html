@@ -1,0 +1,45 @@
+<!DOCTYPE html><!--https://www.yoheim.net/blog.php?q=20170107-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POSTリクエスト</title>
+</head>
+<body>
+<script>
+
+/* 400や500エラーもresolvedされる
+  fetchの特徴として、HTTPステータスが400系や500系エラーでも、
+  処理はエラーにならず、Promiseはresolvedになります。*/ActiveXObject
+
+  // 400や500系のステータスでも、resolvedで処理される.
+  fetch('/400').then(response => {
+
+      console.log('status: ', response.status);
+
+  });
+
+  fetch('/500').then(response => {
+
+      console.log('status: ', response.status);
+
+  });
+
+  // ステータスコードでの処理振り分けが必要な場合には、
+  // それぞれ個別に実装します。
+
+</script>
+
+<!--実行結果:Google Chrome-console
+
+    Fetch sample 01    // h1
+
+    [awaitを使わないfetch呼び出し][awaitを使ったfetch呼び出し][結果のクリア]
+
+    結果表示
+
+-->
+
+
+</body>
+</html>

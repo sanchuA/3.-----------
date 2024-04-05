@@ -1,0 +1,66 @@
+<!DOCTYPE html><!---https://kinsta.com/jp/knowledgebase/javascript-http-request/-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PUTリクエスト</title>
+</head>
+<body>
+<script>
+
+/*JavaScriptでFetch APIを使ってPUTリクエストを行う
+
+  他のセクションで、サーバー内のオブジェクトを更新するリクエストを送信したときは、
+  PATCHを使用しました。
+  
+  ここでは、オブジェクト全体を更新することができるPUTを使用します。
+
+  以下は、fetch APIを使用した例です。*/
+
+  fetch("https://jsonplaceholder.typicode.com/posts/1", {
+
+    method: "PUT",
+
+    body: JSON.stringify({
+
+      id: 1,
+
+      title: "My PUT request",
+
+      body: "Updating the entire object",
+
+      userId: 1,
+
+    }),
+
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+
+  .then((response) => response.json())
+
+  .then((json) => console.log(json));
+
+  /*PUTリクエストを送信するので、更新するデータを指定する必要があります。
+    これが、bodyリクエストオプションの値として渡されます。
+
+    また、URLの最後のパラメータとして、更新するオブジェクトのIDを指定しました。
+    
+    リクエストが正常に実行されると、更新したオブジェクトがコンソールに出力されます。*/
+
+</script>
+
+  <!--実行結果:Google Chrome-console
+
+      ▼ {id: 1, title: 'My PUT request', body: 'Updating the entire object', userId: 1}
+          body: "Updating the entire object"
+          id: 1
+          title: "My PUT request"
+          userId: 1
+        ▶ [[Prototype]]: Object
+
+
+-->
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+/* 2.2.Promise.reject
+
+  Promise.reject(error)はPromise.resolve(value)と同じ静的メソッドで 
+  new Promise()のショートカットとなるメソッドです。
+
+  たとえば、 Promise.reject(new Error("エラー")) 
+  というのは下記のコードのシンタックスシュガーです。
+
+  new Promise((resolve, reject) => {
+
+      reject(new Error("エラー"));
+
+  });*/
+
+  // 返り値のpromiseオブジェクトに対して、
+  // thenのonRejectedに設定された関数にエラーオブジェクトが渡ります。
+
+  Promise.reject(new Error("BOOM!")).catch((error) => {
+
+      console.error(error);
+
+  });
+  
+  /*実行結果:Google Chrome-console
+
+    ▶Error: BOOM!
+      at 2.promise2.html:28:18
+    （匿名）	@	2.promise2-1.htm
+
+  */
+</script>  
+</body>
+</html>

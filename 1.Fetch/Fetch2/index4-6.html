@@ -1,0 +1,41 @@
+<!DOCTYPE html><!--https://www.yoheim.net/blog.php?q=20170107-->
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSTリクエスト</title>
+</head>
+<body>
+<script>
+
+/*POSTデータを送る（Form形式）
+
+  Form形式でも送ることができます。*/
+
+  // POSTで送る場合（FormData形式）
+  fetch('post_with_params', {
+
+      method : 'POST',
+
+      body : 'id=4&name=shinji',
+
+      headers : new Headers({'Content-type' : 'application/x-www-form-urlencoded' })
+  
+    })
+    .then(response => response.text())
+    
+    .then(text => console.log(text)); // params.id=4, params.name=shinji
+
+</script>
+
+<!--実行結果:Google Chrome-console
+
+    Fetch sample 01    // h1
+
+    [awaitを使わないfetch呼び出し][awaitを使ったfetch呼び出し][結果のクリア]
+
+    結果表示
+
+-->
+</body>
+</html>

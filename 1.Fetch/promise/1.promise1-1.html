@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+  // Promiseは非同期処理を抽象化したオブジェクトとそれを操作する仕組みのことをいいます
+
+  const promise = new Promise((resolve) => {
+      resolve(42);
+  });
+
+  promise.then((value) => {
+
+    console.log(value);
+  
+  }).catch((error) => {
+
+    console.error(error);
+
+  });
+
+  /*実行結果:Google Chrome-console
+
+    42
+
+  */
+</script>  
+</body>
+</html>

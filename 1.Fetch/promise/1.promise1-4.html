@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+/* promiseオブジェクトを返す
+
+  非同期処理を抽象化したpromiseオブジェクトというものを用意し、 
+  そのpromiseオブジェクトに対して成功時の処理と失敗時の処理の
+  関数を登録するようにして使います。
+
+  コールバック関数と比べると何が違うのかを簡単に見ると、 
+
+  非同期処理の書き方がpromiseオブジェクトのインターフェースに
+  沿った書き方に限定されます。
+
+  つまり、promiseオブジェクトに用意されているメソッド
+  (ここではthenやcatch)以外は使えないため、 
+  コールバックのように引数に何を入れるかが自由に決められるわけではなく、
+  一定のやり方に統一されます。
+
+  この、Promiseという統一されたインターフェースがあることで、 
+  そのインターフェースにおけるさまざまな非同期処理のパターンを
+  形成することができます。
+
+  つまり、複雑な非同期処理等を上手くパターン化できるというのがPromiseの役割であり、 
+  Promiseを使う理由の一つであるといえるでしょう。
+
+  それでは、実際にJavaScriptでのPromiseについて学んでいきましょう。
+  
+  Arrow Function ⇒
+
+  この書籍のサンプルコードはArrow FunctionなどECMAScript2015で
+  導入された構文を利用します。
+
+  Arrow Functionは、矢印のような ⇒ (イコールと大なり記号)を使い、匿名関数を定義する構文です。
+                    関数式と定義方法や使い方は同じです。*/
+
+  // 関数式の定義と実行
+  const fn = function(arg) {
+
+      console.log("通常の関数定義, 引数:" + arg);
+
+  };
+  fn("引数");
+
+  // Arrow Functionの定義と実行
+  const arrowFunction = (arg) => {
+
+      console.log("Arrow Functionでの関数定義, 引数:" + arg);
+
+  };
+  arrowFunction("引数");
+
+  /* 通常の関数式と`⇒`という記法を使う以外にも次のような特徴があります。
+
+  Arrow Functionには次のような特徴があります。
+
+    名前を付けることができない（常に匿名関数）
+
+    thisが静的に決定できる
+
+    functionキーワードに比べて短く書くことができる
+
+    newできない（コンストラクタ関数ではない）
+
+    arguments変数を参照できない(Rest Parametersを代わりに利用する)
+
+  Arrow Functionを使うことで、コールバック関数を関数式に比べて
+  短く簡潔に書くことができます。 
+  
+  そのため、この書籍ではArrow Functionをメインに利用しています。
+  
+  */
+
+  /*実行結果:Google Chrome-console
+
+    42
+
+  */
+</script>  
+</body>
+</html>

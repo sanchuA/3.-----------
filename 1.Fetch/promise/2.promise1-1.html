@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promiseの書き方</title>
+</head>
+<body>
+<script>
+
+/*Promise.resolve
+
+  一般に new Promise()を使うことでpromiseオブジェクトを生成しますが、 
+  それ以外にもpromiseオブジェクトを生成する方法があります。
+
+  ここでは、Promise.resolveとPromise.rejectについて学びたいと思います。
+
+2.1.1. new Promiseのショートカット
+
+  Promise.resolve(value)という静的メソッドは、 
+  new Promise()のショートカットとなるメソッドです。
+
+  たとえば、 Promise.resolve(42); というのは下記のコードのシンタックスシュガーです。*/
+
+    new Promise((resolve) => {
+      resolve(42);
+    });
+
+/*結果的にすぐにresolve(42);と解決されて、次のthenのonFulfilledに設定された関数に 
+  42という値を渡します。
+
+  Promise.resolve(value); で返ってくる値も同様にpromiseオブジェクトなので、 
+  以下のように続けて .then を使った処理を書くことができます。*/
+
+    Promise.resolve(42).then((value) => {
+
+      console.log(value);
+
+    });
+
+  // Promise.resolveは new Promise()のショートカットとして、 
+  // promiseオブジェクトの初期化時やテストコードを書く際にも活用できます。
+  
+  /*実行結果:Google Chrome-console
+
+      42
+    
+  */
+</script>  
+</body>
+</html>

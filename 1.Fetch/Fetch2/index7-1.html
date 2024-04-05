@@ -1,0 +1,24 @@
+<!DOCTYPE html><!---https://lorem-co-ltd.com/fetch-basic/-->
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch</title>
+</head>
+<body>
+<script>
+
+fetch("test.txt")
+
+.then((data) => data.text())
+
+.then((res) => console.log(res));
+
+</script>
+
+<!--実行結果:Google Chrome-console
+
+    テキストデータです
+-->
+</body>
+</html>

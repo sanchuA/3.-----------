@@ -1,0 +1,43 @@
+<!DOCTYPE html><!--https://www.yoheim.net/blog.php?q=20170107-->
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSTリクエスト</title>
+</head>
+<body>
+<script>
+
+/*POSTデータを送る（JSON形式）
+
+    POSTでデータを送る場合には、options.bodyに値を設定します。
+
+    またContent-Typeヘッダーを指定します。*/
+
+    // POSTで送る場合（JSON形式）
+    fetch('post_with_params', {
+
+        method : 'POST',
+
+        body : JSON.stringify({ id : 3, name : 'matsu' }), // 文字列で指定する
+        
+        headers : new Headers({ "Content-type" : "application/json" })
+    
+    })
+    .then(response => response.text())
+
+    .then(text => console.log(text)); // params.id=3, params.name=matsu
+
+</script>
+
+<!--実行結果:Google Chrome-console
+
+    Fetch sample 01    // h1
+
+    [awaitを使わないfetch呼び出し][awaitを使ったfetch呼び出し][結果のクリア]
+
+    結果表示
+
+-->
+</body>
+</html>

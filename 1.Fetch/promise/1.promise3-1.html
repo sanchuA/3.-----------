@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>promiseオブジェクトの作成</title>
+</head>
+<body>
+<script>
+
+/*promiseオブジェクトの作成
+
+  promiseオブジェクトを作る流れは以下のようになっています。
+
+    1.new Promise(fn)の返り値がpromiseオブジェクト
+
+    2.fn には非同期等の何らかの処理を書く
+
+      ○ 処理結果が正常なら、resolve(結果の値)を呼ぶ
+
+      ○ 処理結果がエラーなら、reject(Errorオブジェクト)を呼ぶ
+
+  この流れに沿っているものを実際に書いてみましょう。
+
+  非同期処理であるXMLHttpRequest(XHR)を使いデータを取得するものをPromiseで書いていきます。
+
+  XHRのpromiseオブジェクトを作る
+
+  まずは、XHRをPromiseを使って包んだようなfetchURLという関数を作ります。*/
+
+  // xhr-promise.js
+
+  const URL = "https://httpbin.org/get";
+
+  function fetchURL(URL) {
+
+      return new Promise((resolve, reject) => {
+
+          const req = new XMLHttpRequest();
+
+          req.open("GET", URL, true);
+
+          req.onload = () => {
+
+              if (200 <= req.status && req.status < 300) {
+
+                  resolve(req.responseText);
+
+              } else {
+
+                  reject(new Error(req.statusText));
+
+              }
+          };
+
+          req.onerror = () => {
+
+              reject(new Error(req.statusText));
+
+          };
+
+          req.send();
+
+      });
+  }
+
+  fetchURL(URL).then(function onFulfilled(value){
+
+    console.log(value);
+
+  }).catch(function onRejected(error){
+
+    console.error(error);
+
+  });
+
+  /* 実行結果:Google Chrome-console
+  {
+    "args": {}, 
+    "headers": {
+      "Accept": "\*\/*", 
+      "Accept-Encoding": "gzip, deflate, br", 
+      "Accept-Language": "ja,en-US;q=0.9,en;q=0.8", 
+      "Dnt": "1", 
+      "Host": "httpbin.org", 
+      "Origin": "http://127.0.0.1:5500", 
+      "Referer": "http://127.0.0.1:5500/", 
+      "Sec-Ch-Ua": "\"Google Chrome\";v=\"123\", \"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"123\"", 
+      "Sec-Ch-Ua-Mobile": "?0", 
+      "Sec-Ch-Ua-Platform": "\"Windows\"", 
+      "Sec-Fetch-Dest": "empty", 
+      "Sec-Fetch-Mode": "cors", 
+      "Sec-Fetch-Site": "cross-site", 
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36", 
+      "X-Amzn-Trace-Id": "Root=1-660e5d74-57bd53a124d2686a49c7b8cf"
+    }, 
+    "origin": "126.28.184.105", 
+    "url": "https://httpbin.org/get"
+  }
+
+
+  */
+  /*このfetchURLでは、XHRでの取得結果のステータスコードが200以上300未満の場合は 
+    resolve - つまり取得に成功、 それ以外はエラーであるとしてrejectしています。
+  
+    resolve(req.responseText)ではレスポンスの内容を引数に入れています。 
+    resolveの引数に入れる値には特に決まりはありませんが、
+    コールバックと同様に次の処理へ渡したい値を入れるといいでしょう。 
+
+    (この値はthenメソッドで受け取ることができます)
+
+    Node.jsをやっている人は、コールバックを書く時にcallback(error, response) 
+    と第一引数にエラーオブジェクトを入れることがよくあると思いますが、
+    
+    Promiseでは役割がresolve/rejectで分担されているので、 
+    resolveにはresponseの値のみをいれるだけで問題ありません。
+
+    次に、rejectの方を見ていきましょう。
+
+    XHRでonerrorのイベントが呼ばれた場合はもちろんエラーなのでrejectを呼びます。 
+    
+    ここでrejectに渡している値に注目してみてください。
+
+    エラーの場合はreject(new Error(req.statusText));というように、
+    Errorオブジェクトを作成して渡していることが分かると思います。 
+    
+    rejectに渡す値に制限はありませんが、
+    一般的にErrorオブジェクト(またはErrorオブジェクトを継承したもの)
+    を渡すことになっています。
+
+    rejectに渡す値は、rejectする理由を書いたErrorオブジェクトとなっています。 
+    
+    今回は、ステータスコードが2xx以外であるならrejectするとしていたため、
+    rejectにはstatusTextを入れています。 
+    
+    (この値はthenメソッドの第二引数 or catchメソッドで受け取ることができます)
+
+
+  */
+
+</script>  
+</body>
+</html>

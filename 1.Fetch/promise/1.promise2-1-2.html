@@ -1,0 +1,59 @@
+<!DOCTYPE html><!-- https://azu.github.io/promises-book/#chapter1-what-is-promise 
+                    https://qiita.com/koki_cheese/items/c559da338a3d307c9d88-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+  // Promise workflow:作業が開始から完了まで通過する一連のプロセス、
+
+  function asyncFunction() {
+    
+    // Promiseコンストラクタを new して、promiseオブジェクトを返します
+    return new Promise((resolve) => {
+
+      // このpromiseオブジェクトはsetTimeoutで16ms後にresolveされるので、 
+      // そのタイミングでthenのコールバックが呼ばれ
+      // 'Async Hello world' と出力されます。
+      setTimeout(() => {
+
+        resolve("Async Hello world");
+
+      }, 16);
+
+    });
+
+    return new Error((error) => {
+      error("エラーです。");
+    });
+  }
+
+  // asyncFunctionという関数はpromiseオブジェクトを返していて、 
+  // そのpromiseオブジェクトに対してthenでresolveした時のコールバックを、 
+  // catch でエラーとなった場合のコールバックを設定しています。
+
+  // promiseオブジェクトに対して .thenで値が返ってきた時のコールバックを設定します  
+  // 成功時呼ばれる関数
+  // promiseオブジェクトに対して .thenで値が返ってきた時のコールバックを設定します
+  asyncFunction().then((value) => {
+
+    console.log(value); // => 'Async Hello world'
+
+  }).catch(onRejected => {
+
+    console.error(error);
+
+  });
+
+  /*実行結果:Google Chrome-console
+
+    Async Hello world
+
+  */
+</script>  
+</body>
+</html>

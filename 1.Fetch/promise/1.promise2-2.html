@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>Promiseの状態
+<body>
+<script>
+
+/*Promiseの状態
+
+  Promiseの処理の流れが少しわかった所で、Promiseの状態について整理したいと思います。
+
+  new Promiseでインスタンス化したpromiseオブジェクトには以下の3つの状態が存在します。
+
+  Fulfilled: resolve(成功)した時。このときonFulfilledが呼ばれる
+
+  Rejected:  reject(失敗)した時。このとき onRejectedが呼ばれる
+
+  Pending: FulfilledまたはRejectedではない時。
+            つまりpromiseオブジェクトが作成された初期状態等が該当する
+
+  これらの状態はES Promisesの仕様で定められている名前です。 
+  この状態をプログラムで直接触る方法は用意されていないため、
+  書く際には余り気にしなくても問題ないですが、 
+  Promiseについて理解するのに役に立ちます。
+
+  この書籍では、Pending、Fulfilled 、Rejectedの状態を用いて解説していきます。
+  
+  Figure1. promise states
+
+                  value
+              ------------Fulfilled
+              |  
+    Pending---|
+              |
+              ------------Rejected
+                  error
+
+  // ES Promisesの仕様では[[PromiseStatus]]という内部定義によって状態が定められています。 
+  // [[PromiseStatus]]にアクセスするユーザーAPIは用意されていないため、
+  // 基本的には知る方法はありません。
+
+  3つの状態を見たところで、すでにこの章で全ての状態が出てきていることが分かります。
+
+  promiseオブジェクトの状態は、一度PendingからFulfilledやRejectedになると、 そのpromiseオブジェクトの状態はそれ以降変化することはなくなります。
+
+  つまり、PromiseはEvent等とは違い、.thenで登録した関数が呼ばれるのは
+  1回限りということが明確になっています。
+
+  また、FulfilledとRejectedのどちらかの状態であることを
+  Settled(不変の)と表現することがあります。
+
+  Settled: resolve(成功) または reject(失敗)した時。
+
+  PendingとSettledが対となる関係であると考えると、
+  Promiseの状態の種類/遷移がシンプルであることが分かると思います。
+
+  このpromiseオブジェクトの状態が変化した時に、
+  一度だけ呼ばれる関数を登録するのが .thenといったメソッドとなるわけです。  
+
+  // JavaScript Promises - Thinking Sync in an Async World // Speaker Deck 
+  // というスライドではPromiseの状態遷移について分かりやすく書かれています。
+
+*/
+  
+  /*実行結果:Google Chrome-console
+
+
+  */
+</script>  
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html><!--https://www.yoheim.net/blog.php?q=20170107-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POSTリクエスト</title>
+</head>
+<body>
+<script>
+
+  //GETパラメータはURLに付与して送ります。
+
+  // URLにパラメータをつけて送ります.
+  fetch('/get_with_params?id=1&name=yohei')
+
+  .then(response => response.text())
+      
+  .then(text => console.log(text)); // params.id=1, params.name=yohei
+
+  // また、URLSearchParamsを使ってURLクエリを作成することもできます。
+
+  // GETの場合のパラメータの送り方➀：URLSearchParamsを利用
+  // https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+  // const params = new URLSearchParams();
+
+  // params.set('id', 2);
+
+  // params.set('name', 'munerin');
+
+  // fetch('/get_with_params?' + params.toString())
+
+  // .then(response => response.text())
+      
+  // .then(text => console.log(text));
+  
+</script>
+
+<!--実行結果:Google Chrome-console
+
+    Fetch sample 01    // h1
+
+    [awaitを使わないfetch呼び出し][awaitを使ったfetch呼び出し][結果のクリア]
+
+    結果表示
+
+-->
+
+
+</body>
+</html>

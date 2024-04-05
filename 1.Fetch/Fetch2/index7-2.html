@@ -1,0 +1,43 @@
+<!DOCTYPE html><!---https://lorem-co-ltd.com/fetch-basic/-->
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSTリクエスト</title>
+</head>
+<body>
+<script>
+
+    // ①thenを使った書き方
+    fetch("test.txt")
+    .then((data) => data.text())
+    .then((res) => console.log(res));
+    // 「テキストデータです」と出力される
+
+
+    // またfetch関数のような非同期処理はJavaScriptの場合、
+    // 別の書き方で表現するのが最近の傾向としてあるので紹介しておきます。
+
+    // 「async」がついた関数は自動的に「await」を使うルールになっていて、
+    // awaitというのが先ほどで言うところのthenの役割になっています。
+    async function fetchData() {
+
+        const data = await fetch("data.json");
+
+        const res = await data.json();
+
+        console.log(res);
+    
+    }
+    fetchData();
+
+</script>
+
+<!--実行結果:Google Chrome-console
+
+    done
+    テキストデータです
+
+-->
+</body>
+</html>

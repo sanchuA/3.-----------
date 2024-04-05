@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+  // Promise workflow:作業が開始から完了まで通過する一連のプロセス、
+
+  function asyncFunction() {
+    
+    // Promiseコンストラクタを new して、promiseオブジェクトを返します
+    return new Promise((resolve) => {
+
+      // このpromiseオブジェクトはsetTimeoutで16ms後にresolveされるので、 
+      // そのタイミングでthenのコールバックが呼ばれ
+      // 'Async Hello world' と出力されます。
+      setTimeout(() => {
+
+          resolve("Async Hello world");
+
+        }, 16);
+
+    });
+  }
+
+  // asyncFunctionという関数はpromiseオブジェクトを返していて、 
+  // そのpromiseオブジェクトに対してthenでresolveした時のコールバックを、 
+  // catch でエラーとなった場合のコールバックを設定しています。
+
+  // promiseオブジェクトに対して .thenで値が返ってきた時のコールバックを設定します
+  asyncFunction().then((value) => {
+
+      console.log(value); // => 'Async Hello world'
+
+  },
+  // この場合catch のコールバックは呼ばれることはないですが、 
+  // setTimeoutが存在しない環境などでは、
+  // 例外が発生しcatchで登録したコールバック関数が呼ばれると思います。
+
+  // もちろん、promise.then(onFulfilled, onRejected)というように、 
+  // catch を使わずにthenを使い、以下のように2つのコールバック関数を設定することでも
+  // ほぼ同様の動作になります。
+
+  (error) => {
+
+      console.error(error);
+
+  });
+  
+  /*実行結果:Google Chrome-console
+
+    Async Hello world
+
+  */
+</script>  
+</body>
+</html>

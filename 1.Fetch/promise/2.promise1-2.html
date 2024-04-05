@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promiseの書き方</title>
+</head>
+<body>
+<script>
+
+/*Promise.resolve
+
+  一般に new Promise()を使うことでpromiseオブジェクトを生成しますが、 
+  それ以外にもpromiseオブジェクトを生成する方法があります。
+
+  ここでは、Promise.resolveとPromise.rejectについて学びたいと思います。
+
+
+2.1.2. Thenable
+
+  もう一つ Promise.resolveの大きな特徴として、
+  thenableなオブジェクトをpromiseオブジェクトに変換するという機能があります。
+
+  ES PromisesにはThenableという概念があり、
+  簡単にいえばpromiseっぽいオブジェクトのことを言います。
+
+  .lengthを持っているが配列ではないものをArray likeというのと同じで、 
+  thenableの場合は .thenというメソッドを持ってるオブジェクトを言います。
+
+  thenableなオブジェクトがもつthenは、
+  Promiseのもつthenと同じような挙動を期待していて、 
+
+  thenableなオブジェクトがもつ元々のthenを上手く利用できるようにし
+  promiseオブジェクトに変換するという仕組みです。
+
+  どのようなものがthenableなのかというと、
+  分かりやすい例では jQuery.ajax()の返り値もthenableです。
+
+  jQuery.ajax()の返り値はjqXHR Objectというもので、 
+  このオブジェクトは .thenというメソッドを持っているためです。*/
+
+  $.ajax("https://httpbin.org/get");// => `.then` をもつオブジェクト
+
+/*このthenableなオブジェクトをPromise.resolveでは
+  promiseオブジェクトにすることができます。
+
+  promiseオブジェクトにすることができれば、thenやcatch といった、 
+  ES Promisesがもつ機能をそのまま利用することができるようになります。*/
+
+
+  //thenableをpromiseオブジェクトにする
+
+  // このサンプルコードはjQueryをロードしている場所でないと動きません
+  const promise = Promise.resolve($.ajax("https://httpbin.org/get"));// => promiseオブジェクト
+
+  promise.then((value) => {
+
+    console.log(value);
+
+  });
+
+  
+/*※jQueryとthenable
+
+  jQuery.ajax()の返り値も .then というメソッドを持ったjqXHR Objectで、 
+  このオブジェクトはDeferred Objectのメソッドやプロパティ等を継承しています。
+
+  しかし、jQuery2.x以下では、このDeferred ObjectはPromises/A+やES Promisesに
+  準拠したものではありません。 
+  
+  そのため、Deferred Objectをpromiseオブジェクトへ変換できたように見えて、
+  一部欠損する情報がでてしまうという問題があります。
+
+  この問題はjQueryのDeferred Objectのthenの挙動が違うために発生します。
+
+  そのため、.then というメソッドを持っていた場合でも、
+  必ずES Promisesとして使えるとは限らないことは知っておくべきでしょう。
+
+    ● JavaScript Promises: There and back again - HTML5 Rocks
+
+    ● You're Missing the Point of Promises
+
+  なお、jQuery3.0からは、 Deferred Objectや jqXHR Objectが
+  Promises/A+準拠へと変更されています。 
+  
+  そのため、上記で紹介されている .thenの挙動が異なる問題は解消されています。
+
+    ● jQuery 3.0 Final Released! | Official jQuery Blog
+
+  Promise.resolveは共通の挙動であるthenだけを利用して、 
+  さまざまなライブラリ間でのpromiseオブジェクトを相互に変換して
+  使える仕組みを持っていることになります。
+
+  このthenableを変換する機能は、以前はPromise.cast という名前であったことからも
+  その挙動が想像できるかもしれません。
+
+  ThenableについてはPromiseを使ったライブラリを書くとき等には知っておくべきですが、 
+  通常の利用だとそこまで使う機会がないものかもしれません。  
+
+  ThenableとPromise.resolveの具体的な例を交えたものは 
+  第4章のPromise.resolveとThenableにて詳しく解説しています。
+
+  Promise.resolveを簡単にまとめると、
+  「渡した値でFulfilledされるpromiseオブジェクトを返すメソッド」
+  と考えるのがいいでしょう。
+
+  また、Promiseの多くの処理は内部的にPromise.resolveのアルゴリズムを使って
+  値をpromiseオブジェクトに変換しています。
+
+  /*実行結果:Google Chrome-console
+
+    
+  */
+</script>  
+</body>
+</html>
