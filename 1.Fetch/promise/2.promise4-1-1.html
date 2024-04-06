@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+/*2.4. Promise#then
+
+  先ほどの章でPromiseの基本となるインスタンスメソッドである
+  thenとcatch の使い方を説明しました。
+
+  その中で .then().catch()とメソッドチェーンで繋げて書いていたことからも分かるように、 
+  Promiseではいくらでもメソッドチェーンを繋げて処理を書いていくことができます。
+
+  promiseはメソッドチェーンで繋げて書ける
+
+  aPromise.then((value) => {
+
+  // task A
+
+  }).then((value) => {
+  // task B
+
+  }).catch((error) => {
+      console.error(error);
+  });
+
+  then で登録するコールバック関数をそれぞれtaskというものにした時に、 
+  taskA → task B という流れをPromiseのメソッドチェーンを使って書くことができます。
+
+  Promiseのメソッドチェーンだと長いので、今後はpromise chainと呼びます。 
+  このpromise chainがPromiseが非同期処理の流れを書きやすい理由の一つといえるかもしれません。
+
+  このセクションでは、thenを使ったpromise chainの挙動と流れについて学んでいきましょう。
+
+2.4.1. promise chain
+
+  第一章の例だと、promise chainはthen → catchというシンプルな例でしたが、
+  
+  このpromise chainをもっとつなげた場合に、 
+  それぞれのpromiseオブジェクトに登録されたonFulfilledとonRejectedが
+  どのように呼ばれるかを見ていきましょう。
+  
+  promise chain - すなわちメソッドチェーンが短いことはよいことです。 
+                  この例では説明のために長いメソッドチェーンを用います。
+
+  次のようなpromise chainを見てみましょう。*/
+  // promise-then-catch-flow.js
+
+  function taskA() {
+
+      console.log("Task A");
+
+  }
+  function taskB() {
+
+      console.log("Task B");
+
+  }
+
+  function onRejected(error) {
+
+      console.log("Catch Error: A or B", error);
+
+  }
+
+  function finalTask() {
+
+      console.log("Final Task");
+
+  }
+
+  const promise = Promise.resolve();
+
+  promise
+      .then(taskA)
+      .then(taskB)
+      .catch(onRejected)
+      .then(finalTask);
+
+  /*実行結果:Google Chrome-console
+    上記のコードを実行すると以下の順に呼ばれていることが分かります。
+
+    Task A
+    Task B
+    Final Task
+
+  */
+
+/*このようなpromise chainをつなげた場合、 それぞれの処理の流れは以下のように図で表せます。
+
+  Figure 3. promise-then-catch-flow.jsの図
+
+  上記のコードでは then は第二引数(onRejected)を使っていないため、 
+  以下のように読み替えても問題ありません。
+
+  then: onFulfilledの処理を登録
+
+  catch: onRejectedの処理を登録
+
+  図の方に注目してもらうと、 Task AとTask Bそれぞれから 
+  onRejected への線が出ていることが分かります。
+
+  これは、Task A または Task Bの処理にて、
+  次のような場合にonRejected が呼ばれるということを示しています。
+
+    ● 例外が発生した時
+
+    ● Rejectedなpromiseオブジェクトがreturnされた時
+
+
+  第一章でPromiseの処理は常にtry-catch されているようなものなので、 
+  例外が起きた場合もキャッチして、
+  catchで登録されたonRejectedの処理を呼ぶことは学びましたね。
+
+  もう一つのRejectedなpromiseオブジェクトがreturnされた時については、 
+  throwを使わずにpromise chain中にonRejectedを呼ぶ方法です。
+
+  これについては、ここでは必要ない内容なので詳しくは、 
+  第4章のthrowしないで、rejectしようにて解説しています。*/
+
+</script>  
+</body>
+</html>

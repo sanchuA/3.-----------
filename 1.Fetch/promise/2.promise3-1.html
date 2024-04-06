@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Promise:非同期処理</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise:非同期処理</title>
 </head>
 <body>
 <script>
 
 /*2.3.1. 同期と非同期の混在の問題
 
-  これはPromise以外でも適用できるため、もう少し一般的な問題として考えてみましょう。
+    これはPromise以外でも適用できるため、もう少し一般的な問題として考えてみましょう。
 
-  この問題はコールバック関数を受け取る関数が、 
-  状況によって同期処理になるのか非同期処理になるのかが変わってしまう問題と同じです。
+    この問題はコールバック関数を受け取る関数が、 
+    状況によって同期処理になるのか非同期処理になるのかが変わってしまう問題と同じです。
 
-  次のような、コールバック関数を受け取り処理するonReady(fn)を見てみましょう。*/
-  //mixed-onready.js
+    次のような、コールバック関数を受け取り処理するonReady(fn)を見てみましょう。*/
+    //mixed-onready.js
 
-  function onReady(fn) {
+    function onReady(fn) {
 
-    const readyState = document.readyState;
+      // Document.readyStateプロパティはdocumentの読み込み状態を示す文字列を返すプロパティ。。
+      const readyState = document.readyState;
+
+      // 文書のreadyState は次のうちのいずれかになります。
+
+      // loading:この文書 (document) はまだ読み込み中です。
+
+      // interactive:文書の読み込みが完了し、文書の解釈はできたが、
+      // スクリプト、画像、スタイルシート、フレームなどのサブリソースはまだ読み込み中である。
+      // この状態は、 DOMContentLoadedイベントが発行されようとしていることを示します。
+
+      // complete:文書とすべてのサブリソースの読み込みが完了しました。
+      // この状態はloadイベントが発行されようとしていることを示しています。
 
       if (readyState === "interactive" || readyState === "complete") {
 
@@ -28,24 +40,33 @@
 
       } else {
 
-          window.addEventListener("DOMContentLoaded", fn);
+        // DOMContentLoadedイベントは、HTMLページの読み込みが終わり、
+        // DOMツリーの構築が完了した時に発生するイベントです。
+
+        // この時点では、まだページに含まれる画像やスタイルシートの
+        // 読み込みが完了しているとは限りません。
+
+        // DOMContentLoadedイベントは、documentオブジェクトに対して発生します。
+        // HTML属性やDOMプロパティは使用できず、addEventListenerメソッドのみ有効です。
+        window.addEventListener("DOMContentLoaded", fn);
 
       }
-  }
+    }
 
-  onReady(() => {
+    onReady(() => {
 
       console.log("DOM fully loaded and parsed");
 
-  });
+    });
 
-  console.log("==Starting==");
+    console.log("==Starting==");
 
-  /*実行結果:Google Chrome-console
+    /*実行結果:Google Chrome-console
 
-    ==Starting==
-    DOM fully loaded and parsed
-  */  
+        ==Starting==
+        DOM fully loaded and parsed
+
+    */  
 
 </script>  
 </body>

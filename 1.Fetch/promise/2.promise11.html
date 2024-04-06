@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+/*2.11. then or catch?
+
+  前の章で .catchはpromise.then(undefined, onRejected)であるということを紹介しました。
+
+  この書籍では基本的には、.catchを使い .thenとは分けて
+  エラーハンドリングを書くようにしています。
+
+  ここでは、.thenでまとめて指定した場合と、
+  どのような違いがでるかについて学んでいきましょう。
+
+  ※2.11.1. エラー処理ができないonRejected
+
+  次のようなコードを見ていきます。*/
+  
+  //then-throw-error.js
+
+  function throwError(value) { // 例外を投げる
+
+      throw new Error(value);
+
+  }
+
+  // <1> onRejectedが呼ばれることはない
+  function badMain(onRejected) {
+
+      return Promise.resolve(42).then(throwError, onRejected);
+
+  }
+  // <2> onRejectedが例外発生時に呼ばれる
+  function goodMain(onRejected) {
+
+      return Promise.resolve(42).then(throwError).catch(onRejected);
+
+  }
+
+
+
+  // 実行例
+  badMain(function(){
+
+      console.log("BAD");
+
+  });
+
+  goodMain(function(){
+
+      console.log("GOOD");
+
+  });
+
+  
+  /*実行結果:Google Chrome-console
+      
+    GOOD
+    Uncaught (in promise) Error: 42
+      at throwError (2.promise11.html:29:13)
+
+
+
+  */  
+  
+  /*このコード例では、(必ずしも悪いわけではないですが)良くないパターンの 
+    badMainとちゃんとエラーハンドリングが行えるgoodMainがあります。
+
+    badMainがなぜ良くないかというと、
+    .then の第二引数にはエラー処理を書くことができますが、 
+    そのエラー処理は第一引数のonFulfilledで指定した関数内で起きた
+    エラーをキャッチすることはできません。
+
+    つまり、この場合、throwErrorでエラーがおきても、
+    onRejectedに指定した関数は呼ばれることなく、 
+    どこでエラーが発生したのかわからなくなってしまいます。
+
+    それに対して、 goodMainはthrowError → onRejectedとなるように書かれています。 
+    
+    この場合はthrowErrorでエラーが発生しても、次のchainである.catch が呼ばれるため、
+    エラーハンドリングを行うことができます。
+
+    .thenのonRejectedが扱う処理は、その(またはそれ以前の)promiseオブジェクトに対してであって、 
+    .then に書かれたonFulfilledは対象ではないためこのような違いが生まれます。  
+
+    .thenや.catchはその場で新しいpromiseオブジェクトを作って返します。 
+    
+    Promiseではchainする度に異なるpromiseオブジェクトに対して処理を書くようになっています。
+
+  
+      Figure 6. Then Catch flow
+
+    この場合のthenはPromise.resolve(42)に対する処理となり、 
+    onFulfilledで例外が発生しても、同じthenで指定されたonRejected
+    はキャッチすることはありません。
+
+    このthenで発生した例外をキャッチできるのは、
+    次のchainで書かれたcatchとなります。
+
+    もちろん.catch は.thenのエイリアスなので、
+    下記のように.thenを使っても問題はありませんが、 
+    .catch を使ったほうが意図が明確で分かりやすいでしょう。
+
+      Promise.resolve(42).then(throwError).then(null, onRejected);
+
+  2.11.2. まとめ
+
+  ここでは次のようなことについて学びました。
+
+  promise.then(onFulfilled, onRejected)において
+
+  onFulfilledで例外がおきても、このonRejectedはキャッチできない
+
+  promise.then(onFulfilled).catch(onRejected)とした場合
+
+  thenで発生した例外を .catch でキャッチできる
+
+  .thenと.catchに本質的な意味の違いはない
+
+  使い分けると意図が明確になる
+
+  badMainのような書き方をすると、
+  意図とは異なりエラーハンドリングができないケースが存在することは覚えておきましょう。*/
+
+</script>  
+</body>
+</html>

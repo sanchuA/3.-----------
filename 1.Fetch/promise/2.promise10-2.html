@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+/*2.10. Promise.race
+
+  Promise.allと同様に複数のpromiseオブジェクトを扱うPromise.raceを見てみましょう。
+  
+  使い方はPromise.allと同様で、promiseオブジェクトの配列を引数に渡します。
+  
+  Promise.allは、渡した全てのpromiseがFulfilled または Rejectedになるまで
+  次の処理を待ちましたが、 
+  
+  Promise.raceは、どれか一つでもpromiseがFulfilled または Rejectedになったら
+  次の処理を実行します。
+  
+  Promise.allのときと同じく、タイマーを使ったPromise.race の例を見てみましょう。
+  
+  //promise-race-timer.js
+  
+  // `delay`ミリ秒後にresolveする
+  function timerPromisefy(delay) {
+
+    return new Promise((resolve) => {
+          
+      setTimeout(() => {
+              
+        resolve(delay);
+          
+      }, delay);
+      
+    });
+  }
+
+  // 一つでもresolve または rejectした時点で終了
+  Promise.race([
+
+      timerPromisefy(1),
+
+      timerPromisefy(32),
+
+      timerPromisefy(64),
+
+      timerPromisefy(128)
+
+  ]).then((value) => {
+
+      console.log(value); // => 1
+
+  });*/
+  
+  /*実行結果:Google Chrome-console
+  
+    1
+
+  */
+  
+  /*上記のコードだと、1ms後、32ms後、64ms後、128ms後に
+    それぞれpromiseオブジェクトがFulfilledとなりますが、 
+    
+    一番最初に1msのものがFulfilledとなった時点で、.thenが呼ばれます。 
+    
+    また、resolve(1)が呼ばれるためvalueに渡される値も1となります。
+  
+    最初にFulfilledとなったpromiseオブジェクト以外は、
+    その後呼ばれているのかを見てみましょう。*/
+
+  // promise-race-other.js
+  
+  const winnerPromise = new Promise((resolve) => {
+
+    setTimeout(() => {
+
+      console.log("this is winner");      (1)
+          
+      resolve("this is winner");
+
+      }, 4);
+
+  });
+
+  const loserPromise = new Promise((resolve) => {
+
+    setTimeout(() => {
+          
+      console.log("this is loser");       (2)
+          
+      resolve("this is loser");
+      
+    }, 1000);
+
+  });
+  
+  // 一番最初のものがresolveされた時点で終了
+  Promise.race([winnerPromise, loserPromise]).then((value) => {
+
+      console.log(value); // => 'this is winner'   (3)
+
+  });
+
+  /*実行結果:Google Chrome-console
+  
+    this is winner        // (3)の実行
+    this is winner        // (1)の実行
+    this is loser         // (2)の実行
+
+  */
+  
+  /*先ほどのコードにconsole.logをそれぞれ追加しただけの内容となっています。
+  
+  実行してみると、winner/loserどちらもsetTimeoutの中身が実行されて 
+  console.log がそれぞれ出力されていることがわかります。
+  
+  つまり、Promise.raceでは、一番最初のpromiseオブジェクトがFulfilledとなっても、
+  他のpromiseがキャンセルされるわけでは無いということがわかります。
+
+  ES Promisesの仕様には、キャンセルという概念はありません。 
+  必ず、resolve or rejectによる状態の解決が起こることが前提となっています。 
+  
+  つまり、状態が固定されてしまうかもしれない処理には不向きであるといえます。 
+  ライブラリによってはキャンセルを行う仕組みが用意されている場合があります。 */
+  
+</script>  
+</body>
+</html>

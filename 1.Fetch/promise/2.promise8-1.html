@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+/*2.8. Promiseと配列
+
+  ここまでで、promiseオブジェクトがFulfilled または Rejectedとなった時の処理は
+  .thenと.catchで登録でき、.finallyを使うことでFulfilledとRejected 
+  どちらの場合でも実行される処理を登録できることを学びました。
+
+  一つのpromiseオブジェクトなら、そのpromiseオブジェクトに対して処理を書けばよいですが、 
+  複数のpromiseオブジェクトが全てFulfilledとなった時の処理を書く場合はどうすればよいでしょうか?
+
+  たとえば、複数のXHR(非同期処理)が全て終わった後に、何かをしたいという事例を考えてみます。
+
+  少しイメージしにくいので、 まずは、通常のコールバックスタイルを使って
+  複数のXHRを行う以下のようなコードを見てみます。
+
+    ※CORSについて
+
+    ブラウザにおけるXHRのリソース取得には、
+    CORS(Cross-Origin Resource Sharing)というセキュリティ上の制約が存在します。
+
+    このCORSの制約により、ブラウザでは同一ドメインではないリソースを
+    許可なく取得することはできません。
+    
+    そのため、一般的には別サイトのリソースは許可なくXHRでアクセスすることができません。
+
+    次のサンプルでは https://azu.github.io/promises-book/json/comment.jsonという 
+    azu.github.ioドメイン以下にあるリソースを取得する例が登場します。
+
+    azu.github.ioドメイン以下のJSONには、を
+    別ドメインからの取得を許可する設定がされています。
+
+    また、 httpbin.orgというドメインがリソース取得の例として登場します。 
+    こちらも、同一ドメインでなくてもリソースの取得が許可されています。
+  
+※2.8.1. コールバックで複数の非同期処理    */
+
+  // multiple-xhr-callback.js
+
+  function fetchURLCallback(URL, callback) {
+
+    const req = new XMLHttpRequest();
+
+    req.open("GET", URL, true);
+
+    req.onload = () => {
+
+      if (200 <= req.status && req.status < 300) {
+
+        callback(null, req.responseText);
+
+      } else {
+
+        callback(new Error(req.statusText), req.response);
+
+      }
+    };
+
+    req.onerror = () => {
+
+      callback(new Error(req.statusText));
+
+    };
+
+    req.send();
+
+  }
+
+  // <1> JSONパースを安全に行う
+  function jsonParse(callback, error, value) {
+
+    if (error) {
+
+      callback(error, value);
+
+    } else {
+
+      try {
+
+        const result = JSON.parse(value);
+
+          callback(null, result);
+
+      } catch (e) {
+
+          callback(e, value);
+
+      }
+    }
+  }
+
+  // <2> XHRを叩いてリクエスト
+  const request = {
+
+    comment(callback) {
+          
+      return fetchURLCallback("https://azu.github.io/promises-book/json/comment.json", jsonParse.bind(null, callback));
+      
+    },
+      
+    people(callback) {
+          
+      return fetchURLCallback("https://azu.github.io/promises-book/json/people.json", jsonParse.bind(null, callback));
+      
+    }
+  };
+  
+  // <3> 複数のXHRリクエストを行い、全部終わったらcallbackを呼ぶ
+  function allRequest(requests, callback, results) {
+      
+    if (requests.length === 0) {
+          
+      return callback(null, results);
+      
+    }
+      
+    const req = requests.shift();
+      
+    req((error, value) => {
+          
+      if (error) {
+              
+        callback(error, value);
+          
+      } else {
+              
+        results.push(value);
+              
+        allRequest(requests, callback, results);
+          
+      }
+    });
+  }
+
+  function main(callback) {
+
+      allRequest([request.comment, request.people], callback, []);
+
+  }
+
+  main(function(error, results){
+
+      if(error){
+
+          console.error(error);
+
+          return;
+      }
+
+      console.log(results);
+
+  });
+
+
+  /*実行結果:Google Chrome-console
+    // 最初の表示
+    ▼ (2) [Array(7),Array(5)]
+
+    // ▶ をクリックすると以下になる
+    ▼ (2) [Array(7),Array(5)]
+      ▶ 0: (7) [{…}, {…}, {…}, {…}, {…}, {…}, {…}]
+      ▶ 1: (5) [{…}, {…}, {…}, {…}, {…}]
+      length: 2
+      ▶ [[Prototype]]: Array(0)
+
+    // さらに、▶ 0をクリックすると以下になる    
+    ▼ (2) [Array(7), Array(5)]
+      ▼ 0: Array(7)
+        ▶ 0: {name: 'Hopkins Shaffer', email: 'hopkinsshaffer@turnling.com', message: 'Cillum reprehenderit officia exercitation ut ad no…eur ipsum amet voluptate veniam in adipisicing.\r\n'}
+        ▶ 1: {name: 'Henry Harrell', email: 'henryharrell@turnling.com', message: 'Excepteur quis laboris fugiat id ipsum id. Aliqua …incididunt officia consequat non minim eiusmod.\r\n'}
+        ▶ 2: {name: 'Ethel Rodriquez', email: 'ethelrodriquez@turnling.com', message: 'Non ea amet anim excepteur irure non aliquip sunt …agna nisi occaecat deserunt quis reprehenderit.\r\n'}
+        ▶ 3: {name: 'Alison Nicholson', email: 'alisonnicholson@turnling.com', message: 'Nisi et do sit aliqua adipisicing sunt minim. Esse…re. Commodo commodo quis laborum amet Lorem eu.\r\n'}
+        ▶ 4: {name: 'Cathleen Hickman', email: 'cathleenhickman@turnling.com', message: 'Elit cupidatat irure nulla ullamco elit ad adipisi…elit non occaecat reprehenderit minim pariatur.\r\n'}
+        ▶ 5: {name: 'Minnie Blake', email: 'minnieblake@turnling.com', message: 'Veniam ex occaecat laboris sint excepteur amet adi…ccaecat et aliqua deserunt adipisicing laboris.\r\n'}
+        ▶ 6: {name: 'Robbins Bernard', email: 'robbinsbernard@turnling.com', message: 'Ipsum tempor voluptate ad et Lorem ullamco do amet…dunt incididunt. Mollit ad id qui est proident.\r\n'}
+        length: 7
+        ▶ [[Prototype]]: Array(0)
+      ▶ 1: (5) [{…}, {…}, {…}, {…}, {…}]
+      length: 2
+      ▶ [[Prototype]]: Array(0)
+
+  */  
+
+  /* このコールバックスタイルでは幾つかの要素が出てきます。
+
+    ● JSON.parseをそのまま使うと例外となるケースがあるためラップしたjsonParse関数を使う
+
+    ● 複数のXHRをそのまま書くとネストが深くなるため、
+      allRequestというrequest関数を実行するものを利用する
+
+    ● コールバック関数にはcallback(error,value)のように第一引数にエラー、
+      第二引数にレスポンスを渡す。
+
+  jsonParse関数を使うときにbindを使うことで、
+  部分適用を使って無名関数を減らすようにしています。 
+    
+  (コールバックスタイルでも関数の処理などをちゃんと分離すれば、無名関数の使用も減らせると思います)
+
+  jsonParse.bind(null, callback);
+
+  // は以下のように置き換えるのと殆ど同じ
+  function bindJSONParse(error, value) {
+
+      jsonParse(callback, error, value);
+
+  }
+
+  コールバックスタイルで書いたものを見ると以下のような点が気になります。
+
+
+    ● 明示的な例外のハンドリングが必要
+
+    ● ネストを深くしないために、requestを扱う関数が必要 
+
+    ● コールバックがたくさんでてくる
+
+*/
+
+</script>  
+</body>
+</html>

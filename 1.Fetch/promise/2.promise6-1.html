@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+/*2.6. Promise#finally
+
+  ECMAScript2018からpromise chainの最後に処理を実行する 
+  Promise#finally メソッド追加されました。
+
+  Promise#finallyメソッドは成功時、失敗時どちらの場合でも
+  呼び出すコールバック関数を登録できます。 
+  
+  try…​catch…​finally構文のfinally節と同様の役割をもつメソッドです。
+
+  次のコードのように、 Promise#finallyメソッドで登録したコールバック関数は、
+  promiseオブジェクトがresolve(成功) / reject(失敗)どちらの場合でも呼ばれます。*/
+
+  //finallyのコード例
+
+  Promise.resolve("成功").finally(() => {
+
+      console.log("成功時に実行される");
+
+  });
+
+  Promise.reject(new Error("失敗")).finally(() => {
+
+      console.log("失敗時に実行される");
+
+  });
+
+  /*実行結果:Google Chrome-console
+    
+    成功時に実行される
+    失敗時に実行される
+
+  */ 
+
+  /*finally メソッドのコールバック関数は引数を受け取らず、
+    どのような値を返してもpromise chainには影響を与えません。 
+    
+    また、 finallyメソッドは新しいpromiseオブジェクトを返し、
+    新しいpromiseオブジェクトは呼び出し元のpromiseオブジェクトの状態を
+    そのまま引き継ぎます。*/
+  
+</script>  
+</body>
+</html>

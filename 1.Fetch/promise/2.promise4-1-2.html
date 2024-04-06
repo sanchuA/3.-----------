@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+/*2.4. Promise#then
+
+  先ほどの章でPromiseの基本となるインスタンスメソッドである
+  thenとcatch の使い方を説明しました。
+
+  その中で .then().catch()とメソッドチェーンで繋げて書いていたことからも分かるように、 
+  Promiseではいくらでもメソッドチェーンを繋げて処理を書いていくことができます。
+
+  promiseはメソッドチェーンで繋げて書ける
+
+  aPromise.then((value) => {
+
+  // task A
+
+  }).then((value) => {
+  // task B
+
+  }).catch((error) => {
+      console.error(error);
+  });
+
+  then で登録するコールバック関数をそれぞれtaskというものにした時に、 
+  taskA → task B という流れをPromiseのメソッドチェーンを使って書くことができます。
+
+  Promiseのメソッドチェーンだと長いので、今後はpromise chainと呼びます。 
+  このpromise chainがPromiseが非同期処理の流れを書きやすい理由の一つといえるかもしれません。
+
+  このセクションでは、thenを使ったpromise chainの挙動と流れについて学んでいきましょう。
+
+2.4.1. promise chain
+
+  また、onRejectedとFinal Taskにはcatchのpromise chainがこれより後ろにありません。 
+  つまり、この処理中に例外が起きた場合はキャッチすることができないことに気をつけましょう。
+
+  もう少し具体的に、Task A → onRejected となる例を見てみます。
+
+  Task Aで例外が発生したケース
+
+  Task A の処理中に例外が発生した場合、 
+  TaskA → onRejected → FinalTaskという流れで処理が行われます。
+
+  
+  Figure 4. Task Aで例外が発生した時の図
+
+  コードにしてみると以下のようになります。*/
+  
+  //promise-then-taska-throw.js
+
+  function taskA() {
+
+      console.log("Task A");
+
+      throw new Error("throw Error @ Task A");
+
+  }
+
+  function taskB() {
+
+      console.log("Task B");// 呼ばれない
+
+  }
+
+  function onRejected(error) {
+
+      console.error(error);// => "throw Error @ Task A"
+
+  }
+
+  function finalTask() {
+
+      console.log("Final Task");
+
+  }
+
+  const promise = Promise.resolve();
+
+  promise
+      .then(taskA)
+      .then(taskB)
+      .catch(onRejected)
+      .then(finalTask);
+
+  /*実行結果:Google Chrome-console
+    上記のコードを実行すると以下の順に呼ばれていることが分かります。
+
+    Task A
+    ▶ Error: throw Error @ Task A
+        at taskA (2.promise4-2.html:63:13)
+    Final Task
+
+
+  */
+
+  /*実行してみると、Task Bが呼ばれていないことが分かるでしょう。  
+
+    例では説明のためにtaskAでthrowして例外を発生させています。 
+    しかし、実際に明示的にonRejectedを呼びたい場合は、
+    Rejectedなpromiseオブジェクトを返すべきでしょう。 
+    それぞれの違いについてはthrowしないで、rejectしようで解説しています。
+
+  */
+  
+
+</script>  
+</body>
+</html>

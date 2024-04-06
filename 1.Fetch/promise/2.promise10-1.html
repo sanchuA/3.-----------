@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+/*2.10. Promise.race
+
+  Promise.allと同様に複数のpromiseオブジェクトを扱うPromise.raceを見てみましょう。
+  
+  使い方はPromise.allと同様で、promiseオブジェクトの配列を引数に渡します。
+  
+  Promise.allは、渡した全てのpromiseがFulfilled または Rejectedになるまで
+  次の処理を待ちましたが、 
+  
+  Promise.raceは、どれか一つでもpromiseがFulfilled または Rejectedになったら
+  次の処理を実行します。
+  
+  Promise.allのときと同じく、タイマーを使ったPromise.race の例を見てみましょう。*/
+  
+  //promise-race-timer.js
+  
+  // `delay`ミリ秒後にresolveする
+  function timerPromisefy(delay) {
+
+    return new Promise((resolve) => {
+          
+      setTimeout(() => {
+              
+        resolve(delay);
+          
+      }, delay);
+      
+    });
+  }
+
+  // 一つでもresolve または rejectした時点で終了
+  Promise.race([
+
+      timerPromisefy(1),
+
+      timerPromisefy(32),
+
+      timerPromisefy(64),
+
+      timerPromisefy(128)
+
+  ]).then((value) => {
+
+      console.log(value); // => 1
+
+  });
+  
+  /*実行結果:Google Chrome-console
+  
+    1
+
+  */
+  
+</script>  
+</body>
+</html>

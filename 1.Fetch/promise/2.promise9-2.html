@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+/*2.9. Promise.all
+
+  Promise.allはpromiseオブジェクトの配列を受け取り、 
+  その配列に入っているpromiseオブジェクトが全てresolveされた時に、
+  
+  次の.thenを呼び出します。
+  
+  先ほどの複数のXHRの結果をまとめて取得する処理は、 
+  Promise.allを使うとシンプルに書くことができます。
+  
+  先ほどの例のfetchURLはXHRによる通信を抽象化したpromiseオブジェクトを返しています。 
+  
+  Promise.allに通信を抽象化したpromiseオブジェクトの配列を渡すことで、 
+  全ての通信が完了(FulfilledまたはRejected)した時に、次の.thenを呼び出すことができます。  
+
+  Promise.all に渡したpromiseオブジェクトが同時に実行されてるのは、 
+  次のようなタイマーを使った例を見てみると分かりやすいです。*/
+
+  //promise-all-timer.js
+  
+  // `delay`ミリ秒後にresolveする
+  function timerPromisefy(delay) {
+
+    return new Promise((resolve) => {
+
+      setTimeout(() => {
+
+        resolve(delay);
+
+      }, delay);
+    });
+  }
+
+  const startDate = Date.now();
+
+  // 全てがresolveされたら終了
+  Promise.all([
+
+      timerPromisefy(1),
+
+      timerPromisefy(32),
+
+      timerPromisefy(64),
+
+      timerPromisefy(128)
+
+  ]).then((values) => {
+
+    console.log(Date.now() - startDate + "ms");// 約128ms
+
+    console.log(values); // [1,32,64,128]
+
+  });
+
+  /*実行結果:Google Chrome-console
+  
+    129ms
+    ▶ (4) [1, 32, 64, 128]
+
+    // ▶ をクリックすると以下が表示される
+    129ms
+    ▼ (4) [1, 32, 64, 128]
+        0: 1
+        1: 32
+        2: 64
+        3: 128
+        length: 4
+        ▶ [[Prototype]]: Array(0)
+  */
+
+  
+  /*timerPromisefyは引数で指定したミリ秒後に、
+    その指定した値でFulfilledとなるpromiseオブジェクトを返してくれます。
+  
+  Promise.allに渡してるのは、それを複数作り配列にしたものですね。
+  
+  const promises = [
+      timerPromisefy(1),
+      timerPromisefy(32),
+      timerPromisefy(64),
+      timerPromisefy(128)
+  ];
+  
+  
+  この場合は、1, 32, 64, 128 ミリ秒後にそれぞれresolveされます。
+  
+  つまり、このpromiseオブジェクトの配列がすべてresolveされるには、
+  最低でも128msかかることがわかります。 
+  
+  実際にPromise.allで処理してみると約128msかかることがわかります。
+  
+  このことから、Promise.allが一つづつ順番にやるわけではなく、 
+  渡されたpromiseオブジェクトの配列を並列に実行してるということがわかります。  
+  
+  仮に逐次的に行われていた場合は、 1ms待機 → 32ms待機 → 64ms待機 → 128ms待機となるので、 
+  全て完了するまで225ms程度かかる計算になります。
+  
+  実際にPromiseを逐次的に処理したいケースについては第4章のPromiseによる逐次処理を参照して下さい。  */
+
+</script>  
+</body>
+</html>

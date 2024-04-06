@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+/*2.7. コラム: thenは常に新しいpromiseオブジェクトを返す
+
+  aPromise.then(…​).catch(…​) は一見すると、
+  全て最初のaPromiseオブジェクトにメソッドチェーンで処理を書いてるように見えます。
+
+  しかし、実際にはthenで新しいpromiseオブジェクト、
+  catchでも別の新しいpromiseオブジェクトを作成して返しています。
+
+  また、thenは新しいオブジェクトを作って返すということがわかっていれば、 
+  次のthenの使い方では意味が異なることに気づくでしょう。*/
+
+  // 2: `then` はpromise chain通り順番に呼び出される
+  const bPromise = new Promise((resolve) => {
+
+      resolve(100);
+
+  });
+
+  bPromise.then((value) => {
+
+      return value * 2;
+
+  }).then((value) => {
+
+      return value * 2;
+
+  }).then((value) => {
+
+      console.log("2: " + value); // => 100 * 2 * 2
+
+  });
+
+  /*実行結果:Google Chrome-console
+    
+    2: 400
+
+  */  
+
+
+  /*1のpromiseをメソッドチェーン的に繋げない書き方はあまりすべきではありませんが、 
+    このような書き方をした場合、それぞれのthenはほぼ同時に呼ばれ、
+    また valueに渡る値も全て同じ100となります。
+
+    2はメソッドチェーン的につなげて書くことにより、
+    resolve → then → then → thenと書いた順番にキチンと実行され、 
+    それぞれのvalueに渡る値は、一つ前のpromiseオブジェクトでreturnされた値が
+    渡ってくるようになります。
+
+    1の書き方により発生するアンチパターンとしては以下のようなものが有名です。
+  
+    ✘ then の間違った使い方
+
+    function badAsyncCall() {
+
+        const promise = Promise.resolve();
+
+        promise.then(() => {
+
+            // 何かの処理
+            return newVar;
+
+        });
+
+        return promise;
+    }
+
+  このように書いてしまうと、
+  promise.thenの中で例外が発生するとその例外を取得する方法がなくなり、 
+  また、何かの値を返していてもそれを受け取る方法が無くなってしまいます。
+
+  これはpromise.thenによって新たに作られたpromiseオブジェクトを返すようにすることで、 
+  2のようにpromise chainをつなげるようにするべきなので、
+  次のように修正することができます。
+
+  thenで作成したオブジェクトを返す*/
+
+  function anAsyncCall() {
+
+      const promise = Promise.resolve();
+
+      return promise.then(() => {
+
+          // 何かの処理
+          return newVar;
+
+      });
+  }
+
+  /*実行結果:Google Chrome-console
+    
+
+  */  
+
+  /*これらのアンチパターンについて、詳しくは Promise Anti-patterns を参照して下さい。
+
+  この挙動はPromise全般に当てはまるため、後に説明するPromise.allやPromise.raceも 
+  引数で受け取ったものとは別のpromiseオブジェクトを作って返しています。  */
+
+</script>  
+</body>
+</html>

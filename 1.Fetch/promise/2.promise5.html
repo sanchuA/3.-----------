@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+/*2.5. Promise#catch
+
+  先ほどのPromise#thenについてでも Promise#catcはすでに使っていましたね。
+
+  改めて説明するとPromise#catchはpromise.then(undefined, onRejected); 
+  のエイリアスとなるメソッドです。 
+  
+  つまり、promiseオブジェクトがRejectedとなった時に呼ばれる関数を登録するためのメソッドです。
+
+  次のコードのようにPromise#catchはPromise#thenでの
+  エラーハンドリングだけを簡潔に書くためのメソッドです。
+
+  //Promise#catchとPromise#then
+
+    Promise.reject(new Error("message")).catch((error) => {
+      // エラーハンドリング
+    });
+  
+    // Promise#catchは次のPromise#thenと同じ意味
+    Promise.reject(new Error("message")).then(undefined, (error) => {
+      // エラーハンドリング
+    });
+
+  Promise#thenとPromise#catchの使い分けについては、 then or catch?で紹介しています。
+
+  ※2.5.1. IE8以下での問題
+
+  Build Status
+
+  このバッジは以下のコードが、polyfillを用いた状態でそれぞれのブラウザで
+  正しく実行できているかを示したものです。
+  
+
+  polyfillとはその機能が実装されていないブラウザでも、
+  その機能が使えるようにするライブラリのことです。 
+  
+  この例では jakearchibald/es6-promiseを利用しています。
+
+  Promise#catchの実行結果*/
+
+  const promise = Promise.reject(new Error("message"));
+
+  promise.catch((error) => {
+
+      console.error(error);
+
+  });
+
+  /*実行結果:Google Chrome-console
+    上記のコードを実行すると以下の順に呼ばれていることが分かります。
+
+    ▶ Error: message
+        at 2.promise5.html:51:34
+
+
+  */  
+
+
+  /*このコードをそれぞれのブラウザで実行させると、
+    IE8以下では実行する段階で識別子がありませんというSyntax Errorになってしまいます。
+
+    これはどういうことかというと、
+    catchという単語はECMAScriptにおける予約語であることが関係します。
+
+    ECMAScript 3では予約語はプロパティの名前に使うことができませんでした。 
+    
+    IE8以下はECMAScript3の実装であるため、catchというプロパティを使う 
+    promise.catch()という書き方が出来ないので、 
+    識別子がありませんというエラーを起こしてしまう訳です。
+
+    一方、現在のブラウザが実装済みであるECMAScript5以降では、 
+    予約語をIdentifierName 、つまりプロパティ名に利用することが可能となっています。
+  
+
+    ECMAScript5でも予約語はIdentifier 、つまり変数名、関数名には利用することができません。 
+    forという変数が定義できてしまうとfor 文との区別ができなくなってしまいます。 
+    
+    プロパティの場合はobject.forとfor文の区別はできるので、
+    少し考えてみると自然な動作ですね。
+
+    このECMAScript3の予約語の問題を回避する書き方も存在します。
+
+    ドット表記法はプロパティ名が有効な識別子(ECMAScript3の場合は予約語が使えない)でないといけませんが、 
+    ブラケット表記法は有効な識別子ではなくても利用できます。
+
+    つまり、先ほどのコードは以下のように書き換えれば、IE8以下でも実行することができます。
+    (もちろんpolyfillは必要です) Promise#catchの識別子エラーの回避 
+
+  const promise = Promise.reject(new Error("message"));
+
+  promise["catch"]((error) => {
+
+      console.error(error);
+
+  });*/
+
+  /*もしくは単純に catch を使わずに、then を使うことでも回避できます。
+  Promise#catchではなくPromise#thenを使う
+
+  const promise = Promise.reject(new Error("message"));
+  promise.then(undefined, (error) => {
+      console.error(error);
+  });
+
+  catch という識別子が問題となっているため、ライブラリによっては caught 等の名前が違うだけのメソッドを用意しているケースがあります。
+
+  また多くの圧縮ツールは promise.catch を promise["catch"] へと置換する処理が組み込まれているため、知らない間に回避できていることも多いかも知れません。
+
+  サポートブラウザにIE8以下を含める時は、この catch の問題に気をつけるといいでしょう。*/
+
+
+  
+
+</script>  
+</body>
+</html>

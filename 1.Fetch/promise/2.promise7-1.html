@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise:非同期処理</title>
+</head>
+<body>
+<script>
+
+/*2.7. コラム: thenは常に新しいpromiseオブジェクトを返す
+
+  aPromise.then(…​).catch(…​) は一見すると、
+  全て最初のaPromiseオブジェクトにメソッドチェーンで処理を書いてるように見えます。
+
+  しかし、実際にはthenで新しいpromiseオブジェクト、
+  catch でも別の新しいpromiseオブジェクトを作成して返しています。
+
+  本当に新しいpromiseオブジェクトを返しているのか確認してみましょう。*/
+
+  const aPromise = new Promise((resolve) => {
+
+      resolve(100);
+
+  });
+
+  const thenPromise = aPromise.then((value) => {
+
+      console.log(value);
+
+  });
+
+  const catchPromise = thenPromise.catch((error) => {
+
+      console.error(error);
+
+  });
+
+  console.log(aPromise !== thenPromise); // => true
+
+  console.log(thenPromise !== catchPromise);// => true
+
+
+
+  /*実行結果:Google Chrome-console
+    true
+    true
+    100
+
+  */  
+
+  /*=== 厳密比較演算子によって比較するとそれぞれが別々のオブジェクトなので、 
+    本当にthenやcatchは別のpromiseオブジェクトを返していることが分かりました。
+
+  Figure6.png
+
+  この仕組みはPromiseを拡張する時は意識しないと、
+  いつのまにか触ってるpromiseオブジェクトが別のものであったということが起こりえると思います。
+
+  また、thenは新しいオブジェクトを作って返すということがわかっていれば、 
+  次のthenの使い方では意味が異なることに気づくでしょう。*/
+
+</script>  
+</body>
+</html>
