@@ -1,0 +1,15 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+    {
+      "type": "Live Preview",
+      "workspacePath": "c:\\JavaScriptWorkSpace\\現代の JavaScript チュートリアル\\3.その他の記事\\3.ネットワークリクエスト",
+      "problemMatcher": [],
+      "label": "Live Preview: サーバーを実行する",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

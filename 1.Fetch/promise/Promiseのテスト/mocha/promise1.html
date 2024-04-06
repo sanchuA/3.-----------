@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mochaにおける非同期処理の3つのテストパターン</title>
+</head>
+<body>
+<script>
+
+/*テストの書き方
+
+  まず、アサーションを読み込む。
+
+  var chai = require('chai');
+
+  var assert = chai.assert;
+
+  テストについては、describe()関数を使う。
+
+  第一引数にテストの名前、第二引数にテストの内容を記述する。
+  
+  テストの内容は、匿名関数の形で書く。
+
+  describe('テストの名前', function () {
+
+      // テストの内容
+
+  });
+
+  一つ一つのアサートについては、it()を使って書く。
+
+  第一引数にアサートの名前、第二引数にアサートの内容を、匿名関数で書く。
+
+  一番多く使うアサートは、恐らくstrictEqual()。
+  
+  第一引数にチェックする値、第二引数に期待される値を渡して使う。
+
+  つまり、以下のような形になる。
+
+    it('アサートの名前', function(){ assert.strictEqual(チェックする値, 期待される値) });
+
+  試しに、以下のコードを書き、それをmocha ファイル名.jsで実行した。*/
+
+  var chai = require('chai');
+
+  var assert = chai.assert;
+
+  var myFunc = function(a, b){
+
+      return a + b;
+
+  };
+
+  describe('テストのタイトル', function () {
+
+    it('myFuncのテスト', function(){ assert.strictEqual(myFunc(1,2), 3) });
+
+    var result = myFunc(3,3);
+
+    it('myFuncのテスト2', function(){ assert.strictEqual(result, 6) });
+
+  });
+
+  
+</script>  
+</body>
+</html>
