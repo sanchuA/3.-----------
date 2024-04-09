@@ -1,0 +1,22 @@
+<!DOCTYPE html><!-- https://codezine.jp/article/detail/7367 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<script>
+
+  describe('顧客データを保存する場合', function() {
+  
+    it("重複したデータが存在しないこと", function () {
+    
+      existsCustomerData("yasunishi").should.to.eql(false); 
+
+    });
+  });
+
+</script>
+</body>
+</html>

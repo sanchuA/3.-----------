@@ -1,0 +1,1 @@
+link:embed/embed-basic-test.js[role=include]

@@ -3,127 +3,119 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Promise:非同期処理</title>
+  <title>Promiseのテスト</title>
 </head>
 <body>
 <script>
 
-/*2.4. Promise#then
+/*3. Chapter.3 - Promiseのテスト
 
-  先ほどの章でPromiseの基本となるインスタンスメソッドである
-  thenとcatch の使い方を説明しました。
+3.1. 基本的なテスト
 
-  その中で .then().catch()とメソッドチェーンで繋げて書いていたことからも分かるように、 
-  Promiseではいくらでもメソッドチェーンを繋げて処理を書いていくことができます。
+  ES Promisesのメソッド等についてひととおり学ぶことができたため、 
+  実際にPromiseを使った処理を書いていくことはできると思います。
 
-  promiseはメソッドチェーンで繋げて書ける
+  そうした時に、次にどうすればいいのか悩むのがPromiseのテストの書き方です。
 
-  aPromise.then((value) => {
+  ここではまず、 Mochaを使った基本的なPromiseのテストの書き方について学んでいきましょう。
 
-  // task A
+  また、この章でのテストコードはNode.js環境で実行することを前提としているため、 
+  各自Node.js環境を用意してください。
 
-  }).then((value) => {
-  // task B
+  この書籍中に出てくるサンプルコードはそれぞれテストも書かれています。 
+  
+  テストコードは azu/promises-book から参照できます。
 
-  }).catch((error) => {
-      console.error(error);
+  3.1.1. Mochaとは
+
+  Mochaの公式サイト: https://mochajs.org/
+
+  ここでは、 Mocha自体については詳しく解説しませんが、 
+  MochaはNode.js製のテストフレームワークツールです。
+
+  MochaはBDD,TDD,exportsのどれかのスタイルを選択でき、
+  テストに使うアサーションメソッドも任意のライブラリと組み合わせて利用します。 
+  
+  つまり、Mocha自体はテスト実行時の枠だけを提供しており、
+  他は利用者が選択するというものになっています。
+
+  Mochaを選択した理由は、以下のとおりです。
+
+    ● 著名なテストフレームワークであること
+
+    ● Node.jsとブラウザどちらのテストもサポートしている
+
+    ● "Promiseのテスト"をサポートしている
+
+  最後の "Promiseのテスト"をサポートしている
+  とはどういうことなのかについては後ほど解説します。
+
+  この章ではMochaを利用するため、
+  npmを使いMochaをインストールしておく必要があります。
+
+  $ npm install -g mocha
+
+  また、アサーション自体はNode.jsに同梱されているassertモジュールを使用するので
+  別途インストールは必要ありません。
+
+  ※アサーションとは
+    「アサーション（assertion）」とは、「自己主張という意味の単語で、
+    相手と対等な立場に立って自己主張をするためのコミュニケーションスキルのことです。 
+    相手の主張を否定したり、強い口調で無理に押し込めるのではなく、
+    お互いの価値観を尊重しつつ、自分の意見を的確に言葉にするための方法です。
+
+  まずはコールバックスタイルの非同期処理をテストしてみましょう。
+
+  3.1.2. コールバックスタイルのテスト
+
+  コールバックスタイルの非同期処理をテストする場合、
+  Mochaでは以下のように書くことができます。*/
+
+  // basic-test.js
+
+  const assert = require("assert");
+
+  it("should use `done` for test", (done) => {
+
+      setTimeout(() => {
+
+          assert(true);
+
+          done(c);
+
+      }, 0);
   });
 
-  then で登録するコールバック関数をそれぞれtaskというものにした時に、 
-  taskA → task B という流れをPromiseのメソッドチェーンを使って書くことができます。
+  // このテストを basic-test.js というファイル名で作成し、 
+  // 先ほどインストールしたMochaでコマンドラインからテストを実行することができます。
 
-  Promiseのメソッドチェーンだと長いので、今後はpromise chainと呼びます。 
-  このpromise chainがPromiseが非同期処理の流れを書きやすい理由の一つといえるかもしれません。
+  // $ mocha basic-test.js
 
-  このセクションでは、thenを使ったpromise chainの挙動と流れについて学んでいきましょう。
+  // Mochaはitの仮引数にdone のように指定してあげると、 
+  // done() が呼ばれるまでテストの終了を待つことで非同期のテストをサポートしています。
 
-2.4.2. promise chainでの値渡し
+  // Mochaでの非同期テストは以下のような流れで実行されます。
 
-  先ほどの例ではそれぞれのTaskが独立していて、ただ呼ばれているだけでした。
+  it("should use `done` for test", (done) => {
 
-  このときに、Task AがTask Bへ値を渡したい時はどうすればよいでしょうか?
+      setTimeout(() => {
 
-  答えはものすごく単純でTask Aの処理で returnした値がTask Bが呼ばれるときに
-  引数に設定されます。
+          assert(true);
 
-  実際に例を見てみましょう。*/
+          done();
 
-  // promise-then-passing-value.js
+      }, 0);
+  });
 
-  function doubleUp(value) {
+  // コールバックを使う非同期処理
+  // done を呼ぶことでテストが終了する
 
-      return value * 2;
-
-  }
-
-  function increment(value) {
-
-    // incrementでは渡された値に+1した値をreturn している
-    return value + 1;
-
-  }
-
-  function output(value) {
-
-      console.log(value);       // => (1 + 1) * 2
-
-  }
-
-  // Promise.resolve(1); から1がincrementに渡される
-  // その下のコードpromise.then(increment)を実行し、順次実行する
-  const promise = Promise.resolve(1);
-
-  promise
-    // 1がincrementに渡され,promise.then(increment)を実行される
-    .then(increment)
-
-    // この値(2)が次の doubleUp に渡される
-    .then(doubleUp)
-
-    // 
-    .then(output)
-      
-    .catch((error) => {
-          
-      // promise chain中にエラーが発生した場合に呼ばれる
-      console.error(error);
-
-    });
+  // よく見かける形の書き方ですね。
 
   /*実行結果:Google Chrome-console
-    上記のコードを実行すると以下の順に呼ばれていることが分かります。
-
-    4
+      
 
   */  
-
-/*スタートはPromise.resolve(1);で、この処理は以下のような流れで
-  promise chainが処理されていきます。
-
-  1.Promise.resolve(1); から1が incrementに渡される
-
-  2.increment では渡された値に+1した値を return している
-
-  3.この値(2)が次のdoubleUpに渡される
-
-  4.最後にoutputが出力する
-
-
-  Figure 5. promise-then-passing-value.jsの図
-
-  このreturnする値は数字や文字列だけではなく、 
-  オブジェクトやpromiseオブジェクトもreturnすることができます。
-
-  returnした値は Promise.resolve(returnされた値); のように処理されるため、 
-  
-  何をreturnしても最終的には新しいpromiseオブジェクトを返します。
-
-	これについて詳しくはthenは常に新しいpromiseオブジェクトを返すにて、 
-  よくある間違いと共に紹介しています。
-
-  つまり、 Promise#thenは単にコールバックとなる関数を登録するだけではなく、 
-  受け取った値を変化させて別のpromiseオブジェクトを生成する 
-  という機能も持っていることを覚えておくといいでしょう。*/
 
 </script>  
 </body>
